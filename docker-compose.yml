@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ideas-website
+    volumes:
+      - ./:/code
+    networks:
+      - u-online
+  web:
+    image: nginx:stable-alpine
+    container_name: ideas-website-nginx
+    ports:
+        - "8076:80"
+    expose:
+        - "8076"
+    volumes:
+        - ./:/code
+        - ./site.conf:/etc/nginx/conf.d/default.conf
+    links:
+        - app
+    networks:
+      - u-online
+
+
+
+networks:
+  u-online:
+    driver: bridge
+
+
+    # php:
+    #     image: php:fpm
+    #     volumes:
+    #         - ./:/code

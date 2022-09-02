@@ -1,0 +1,22 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ideas-website
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+  nginx:
+    image: nginx:stable-alpine
+    container_name: ideas-website-nginx
+    restart: always
+    ports:
+      - 8076:80
+    expose:
+        - "8076"
+    volumes:
+      - ./:/var/www
+      - ./nginx:/etc/nginx/conf.d
