@@ -90,8 +90,17 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
+
+$limit = 10;
+
+if (isset($_POST['limitData'])) {
+    echo $_POST["limitData"];
+
+    $limit = $_POST["limitData"];
+}
+
 try {
-    $sql = 'SELECT *, Author.Name FROM Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
+    $sql = "SELECT *, Author.Name FROM Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID LIMIT $limit";
 
     $s = $pdo->prepare($sql);
     $s->execute(array());
@@ -104,5 +113,7 @@ foreach ($s as $row) {
     $ideas[] = array('ID' => $row['ID'], 'text' => $row['IdeaText'], 'Image' => $row['Image'], 'IdeaDate' => $row['IdeaDate'], 'Name' => $row['Name'], 'Vote' => $row['Vote']);
     $Vote = $row['Vote'];
 }
+
+
 
 include "$_PATH[ideasPath]";
