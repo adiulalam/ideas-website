@@ -11,6 +11,7 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
 
 <body>
+
   <h1>Search Results</h1>
   <?php if (isset($ideas)) : ?>
     <table border="1px">

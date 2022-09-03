@@ -16,41 +16,7 @@
 
   <h1>All Ideas</h1>
 
-  <!-- <form action="" method="get">
-    <p>Advanced Search</p>
-    <div>
-      <label for="Author">By Author:</label>
-      <select Name="Author" ID="Author">
-        <option value="">Any Author</option>
-        <?php foreach ($authors as $Author) : ?>
-          <option value="<?php html($Author['ID']); ?>"><?php html($Author['Name']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-
-    <div>
-      <label for="Category">By Category:</label>
-      <select Name="Category" ID="Category">
-        <option value="">Any Category</option>
-        <?php foreach ($categories as $Category) : ?>
-          <option value="<?php html($Category['ID']); ?>"><?php html($Category['Name']); ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-
-    <div>
-      <label for="text">Containing text</label>
-      <input type="text" name="text" id="text">
-    </div>
-
-    <div>
-      <input type="hidden" name="action" value="search">
-      <input type="submit" value="search">
-    </div>
-
-  </form> -->
-
-  <br>
+  <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
 
   <?php if (isset($ideas)) : ?>
     <table style="overflow-x:auto;" border="1px">
