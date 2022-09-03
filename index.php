@@ -1,6 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
+
 if (isset($_GET['action']) and $_GET['action'] == 'search') {
     include "$_PATH[databasePath]";
 
@@ -38,6 +39,29 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
         $ideas[] = array('ID' => $row['ID'], 'text' => $row['IdeaText'], 'Image' => $row['Image'], 'IdeaDate' => $row['IdeaDate'], 'Name' => $row['Name'], 'Vote' => $row['Vote'], 'AuthorID' => $row['AuthorID']);
     }
 
+
+    try {
+        $result = $pdo->query('SELECT Author_ID, Name FROM Author');
+    } catch (PDOException $e) {
+        $error = 'Error fetching authors from the database';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+    foreach ($result as $row) {
+        $authors[] = array('ID' => $row['Author_ID'], 'Name' => $row['Name']);
+    }
+
+    try {
+        $result = $pdo->query('SELECT ID, Name FROM Category');
+    } catch (PDOException $e) {
+        $error = 'Error fetching categories from the database';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+    foreach ($result as $row) {
+        $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
+    }
+
     include "$_PATH[ideasPath]";
     exit();
 }
@@ -62,7 +86,6 @@ try {
     include "$_PATH[errorPath]";
     exit();
 }
-
 foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
@@ -82,5 +105,4 @@ foreach ($s as $row) {
     $Vote = $row['Vote'];
 }
 
-
-include "$_PATH[searchFormPath]";
+include "$_PATH[ideasPath]";
