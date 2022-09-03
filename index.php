@@ -95,15 +95,30 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
-
+$offset = 0;
 $limit = 10;
 
 if (isset($_POST['limitData'])) {
     $limit = $_POST["limitData"];
 }
 
+if (isset($_GET['prevPage'])) {
+    $offset = $_GET['prevPage'];
+    if ($offset <= 0) {
+        $offset = 0;
+    } else {
+        $offset -= $limit + 1;
+    }
+}
+
+if (isset($_GET['nextPage'])) {
+    $offset = $_GET['nextPage'];
+    $offset += $limit + 1;
+}
+
 try {
-    $sql = "SELECT *, Author.Name FROM Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID LIMIT $limit";
+    $sql = "SELECT *, Author.Name FROM Idea INNER JOIN Author 
+    ON Idea.AuthorID = Author.Author_ID LIMIT $limit OFFSET $offset";
 
     $s = $pdo->prepare($sql);
     $s->execute(array());
@@ -116,7 +131,5 @@ foreach ($s as $row) {
     $ideas[] = array('ID' => $row['ID'], 'text' => $row['IdeaText'], 'Image' => $row['Image'], 'IdeaDate' => $row['IdeaDate'], 'Name' => $row['Name'], 'Vote' => $row['Vote']);
     $Vote = $row['Vote'];
 }
-
-
 
 include "$_PATH[ideasPath]";
