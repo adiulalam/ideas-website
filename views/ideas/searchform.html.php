@@ -14,11 +14,9 @@
 
   <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/filter.html.php'; ?>
 
-  <h1>All Ideas</h1>
-
   <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
 
-  <?php if (isset($ideas)) : ?>
+  <!-- <?php if (isset($ideas)) : ?>
     <table style="overflow-x:auto;" border="1px">
       <tr>
         <th>Idea Text</th>
@@ -58,7 +56,7 @@
         </tr>
       <?php endforeach; ?>
     </table> <br>
-  <?php endif; ?>
+  <?php endif; ?> -->
 </body>
 
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/footer.html.php'; ?>
