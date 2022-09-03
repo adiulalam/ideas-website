@@ -11,9 +11,12 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
 
 <body>
+
+  <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/filter.html.php'; ?>
+
   <h1>All Ideas</h1>
 
-  <form action="" method="get">
+  <!-- <form action="" method="get">
     <p>Advanced Search</p>
     <div>
       <label for="Author">By Author:</label>
@@ -45,7 +48,9 @@
       <input type="submit" value="search">
     </div>
 
-  </form> <br>
+  </form> -->
+
+  <br>
 
   <?php if (isset($ideas)) : ?>
     <table style="overflow-x:auto;" border="1px">

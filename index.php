@@ -21,7 +21,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
     }
 
     if ($_GET['text'] != '') {
-        $where .= " AND IdeaText LIKE :IdeaText";
+        $where .= " AND LOWER(IdeaText) LIKE LOWER(:IdeaText)";
         $placeholders[':IdeaText'] = '%' . $_GET['text'] . '%';
     }
 
@@ -42,8 +42,6 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
     exit();
 }
 
-
-// include "$_PATH[databasePath]";
 include "$_PATH[databasePath]";
 try {
     $result = $pdo->query('SELECT Author_ID, Name FROM Author');
@@ -83,5 +81,6 @@ foreach ($s as $row) {
     $ideas[] = array('ID' => $row['ID'], 'text' => $row['IdeaText'], 'Image' => $row['Image'], 'IdeaDate' => $row['IdeaDate'], 'Name' => $row['Name'], 'Vote' => $row['Vote']);
     $Vote = $row['Vote'];
 }
+
 
 include "$_PATH[searchFormPath]";
