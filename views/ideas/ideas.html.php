@@ -3,9 +3,12 @@
 <html lang="en">
 
 <head>
+  <script src="https://cdn.tailwindcss.com"></script>
   <meta charset="utf-8">
   <title>Manage Ideas: Search Results</title>
 </head>
+
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
 
 <body>
   <h1>Search Results</h1>
@@ -41,5 +44,7 @@
   <?php endif; ?>
   <p><a href="?">New Search</a></p>
 </body>
+
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/footer.html.php'; ?>
 
 </html>

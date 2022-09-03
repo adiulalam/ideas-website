@@ -38,7 +38,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
         $ideas[] = array('ID' => $row['ID'], 'text' => $row['IdeaText'], 'Image' => $row['Image'], 'IdeaDate' => $row['IdeaDate'], 'Name' => $row['Name'], 'Vote' => $row['Vote'], 'AuthorID' => $row['AuthorID']);
     }
 
-    include "$$_PATH[ideasPath]";
+    include "$_PATH[ideasPath]";
     exit();
 }
 

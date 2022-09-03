@@ -3,10 +3,12 @@
 <html lang="en">
 
 <head>
-  <!--NEW CODE-->
+  <script src="https://cdn.tailwindcss.com"></script>
   <meta charset="utf-8">
   <title>All Ideas</title>
 </head>
+
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
 
 <body>
   <h1>All Ideas</h1>
@@ -86,9 +88,8 @@
       <?php endforeach; ?>
     </table> <br>
   <?php endif; ?>
-
-  <!--<p><a href="../../">Return to CMS home</a></p>-->
-  <footer>Created by greforum &copy; Copyright 2020</footer>
 </body>
+
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/footer.html.php'; ?>
 
 </html>
