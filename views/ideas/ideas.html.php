@@ -14,22 +14,13 @@
 
   <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/filter.html.php'; ?>
 
-  <form method="get" action="">
-    <div class="flex flex-col my-auto items-center bgimg bg-cover p-3">
-      <div class="inline-flex">
-        <button name='prevPage' value="<?php echo $offset ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-          Prev
-        </button>
-        <button name='nextPage' value="<?php echo $offset ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-          Next
-        </button>
-      </div>
-    </div>
-  </form>
-
-  <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/limiter.html.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limitNav.html.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limiter.html.php'; ?>
 
   <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
+
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limiter.html.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limitNav.html.php'; ?>
 
 </body>
 
