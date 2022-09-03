@@ -9,6 +9,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
     $from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
     $where = ' WHERE TRUE';
     $placeholders = array();
+    $limit = 10;
 
     if ($_GET['Author'] != '') {
         $where .= " AND AuthorID = :AuthorID";
@@ -26,8 +27,12 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
         $placeholders[':IdeaText'] = '%' . $_GET['text'] . '%';
     }
 
+    if (isset($_POST['limitData'])) {
+        $limit = $_POST["limitData"];
+    }
+
     try {
-        $sql = $select . $from . $where;
+        $sql = $select . $from . $where . " limit $limit";
         $s = $pdo->prepare($sql);
         $s->execute($placeholders);
     } catch (PDOException $e) {
@@ -94,8 +99,6 @@ foreach ($result as $row) {
 $limit = 10;
 
 if (isset($_POST['limitData'])) {
-    echo $_POST["limitData"];
-
     $limit = $_POST["limitData"];
 }
 
