@@ -1,5 +1,5 @@
 <div class="flex justify-center my-2">
-    <div class="float right mr-5">
+    <div class="float left mr-5">
         <form method="post" action="#">
             <select Name="orderBy" ID="orderBy" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange='this.form.submit()'>
                 <option disabled="disabled" selected="selected">Order By: </option>
@@ -15,7 +15,7 @@
 
     <ul class="flex">
         <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-            <a href="index.php?page=<?= $Previous; ?>" aria-label="Previous">
+            <a href="index.php?page=<?= $previous; ?>" aria-label="Previous">
                 <span aria-hidden="true">&laquo; Previous</span>
             </a>
         </li>
@@ -25,7 +25,7 @@
             <?php } else break; ?>
         <?php endfor; ?>
         <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-            <a href="index.php?page=<?= $Next; ?>" aria-label="Next">
+            <a href="index.php?page=<?= $next; ?>" aria-label="Next">
                 <span aria-hidden="true">Next &raquo;</span>
             </a>
         </li>
