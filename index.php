@@ -9,7 +9,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
     $from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
     $where = ' WHERE TRUE';
     $placeholders = array();
-    $limit = 10;
+    $orderby = ' IdeaDate DESC';
 
     if ($_GET['Author'] != '') {
         $where .= " AND AuthorID = :AuthorID";
@@ -31,8 +31,27 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
         $limit = $_POST["limitData"];
     }
 
+    $limit = isset($_POST["limit-records"]) ? $_POST["limit-records"] : 10;
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $start = ($page - 1) * $limit;
+
     try {
-        $sql = $select . $from . $where . " limit $limit";
+        $result = $pdo->query("SELECT count(ID) AS id FROM Idea");
+        $ideasCount = $result->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        $error = 'Error fetching ideas count';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    $total = $ideasCount[0]['id'];
+    $pages = ceil($total / $limit);
+
+    $Previous = ($page == 1) ? 1 : $page - 1;
+    $Next = ($page == $pages) ? $pages : $page + 1;
+
+    try {
+        $sql = $select . $from . $where . " LIMIT $start, $limit";
         $s = $pdo->prepare($sql);
         $s->execute($placeholders);
     } catch (PDOException $e) {
@@ -114,9 +133,15 @@ $pages = ceil($total / $limit);
 $Previous = ($page == 1) ? 1 : $page - 1;
 $Next = ($page == $pages) ? $pages : $page + 1;
 
+$orderby = ' IdeaDate DESC';
+
+if (isset($_POST["orderBy"])) {
+    $orderby = $_POST["orderBy"];
+}
+
 try {
     $sql = "SELECT *, Author.Name FROM Idea INNER JOIN Author 
-    ON Idea.AuthorID = Author.Author_ID LIMIT $start, $limit";
+    ON Idea.AuthorID = Author.Author_ID ORDER BY $orderby LIMIT $start, $limit ";
 
     $s = $pdo->prepare($sql);
     $s->execute(array());
