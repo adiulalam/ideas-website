@@ -4,6 +4,7 @@
 
 <head>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <meta charset="utf-8">
   <title>All Ideas</title>
 </head>
@@ -14,13 +15,11 @@
 
   <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/filter.html.php'; ?>
 
-  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limitNav.html.php'; ?>
-  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limiter.html.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/pagination.html.php'; ?>
 
   <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
 
-  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limiter.html.php'; ?>
-  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/limitNav.html.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/pagination.html.php'; ?>
 
 </body>
 

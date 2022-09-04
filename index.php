@@ -95,30 +95,28 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
-$offset = 0;
-$limit = 10;
+$limit = isset($_POST["limit-records"]) ? $_POST["limit-records"] : 10;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($page - 1) * $limit;
 
-if (isset($_POST['limitData'])) {
-    $limit = $_POST["limitData"];
+try {
+    $result = $pdo->query("SELECT count(ID) AS id FROM Idea");
+    $ideasCount = $result->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $error = 'Error fetching ideas count';
+    include "$_PATH[errorPath]";
+    exit();
 }
 
-if (isset($_GET['prevPage'])) {
-    $offset = $_GET['prevPage'];
-    if ($offset <= 0) {
-        $offset = 0;
-    } else {
-        $offset -= $limit + 1;
-    }
-}
+$total = $ideasCount[0]['id'];
+$pages = ceil($total / $limit);
 
-if (isset($_GET['nextPage'])) {
-    $offset = $_GET['nextPage'];
-    $offset += $limit + 1;
-}
+$Previous = ($page == 1) ? 1 : $page - 1;
+$Next = ($page == $pages) ? $pages : $page + 1;
 
 try {
     $sql = "SELECT *, Author.Name FROM Idea INNER JOIN Author 
-    ON Idea.AuthorID = Author.Author_ID LIMIT $limit OFFSET $offset";
+    ON Idea.AuthorID = Author.Author_ID LIMIT $start, $limit";
 
     $s = $pdo->prepare($sql);
     $s->execute(array());

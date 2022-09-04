@@ -1,6 +1,6 @@
 <form action="" method="get">
     <div class="flex p-5">
-        <div class="group inline-block">
+        <div class="group inline-block mr-1">
             <select Name="Author" ID="Author" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="">Author</option>
                 <?php foreach ($authors as $Author) : ?>
@@ -8,7 +8,7 @@
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="group inline-block">
+        <div class="group inline-block mr-1">
             <select Name="Category" ID="Category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="">Category</option>
                 <?php foreach ($categories as $Category) : ?>
