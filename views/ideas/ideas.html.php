@@ -21,6 +21,8 @@
 
   <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/pagination.html.php'; ?>
 
+  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/addIdea.html.php'; ?>
+
 </body>
 
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/footer.html.php'; ?>
