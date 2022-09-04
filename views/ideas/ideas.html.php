@@ -12,19 +12,22 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
 
 <body>
+  <section class="bg-gray-50 dark:bg-gray-900">
 
-  <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/filter.html.php'; ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/filter.html.php'; ?>
 
-  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/pagination.html.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/pagination.html.php'; ?>
 
-  <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
 
-  <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/pagination.html.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/components/pagination.html.php'; ?>
 
-  <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/addIdea.html.php'; ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/addIdea.html.php'; ?>
+
+  </section>
 
 </body>
-
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/footer.html.php'; ?>
+
 
 </html>
