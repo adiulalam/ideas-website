@@ -50,8 +50,12 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
     $Previous = ($page == 1) ? 1 : $page - 1;
     $Next = ($page == $pages) ? $pages : $page + 1;
 
+    if (isset($_POST["orderBy"])) {
+        $orderby = $_POST["orderBy"];
+    }
+
     try {
-        $sql = $select . $from . $where . " LIMIT $start, $limit";
+        $sql = $select . $from . $where . " ORDER BY $orderby" . " LIMIT $start, $limit";
         $s = $pdo->prepare($sql);
         $s->execute($placeholders);
     } catch (PDOException $e) {
