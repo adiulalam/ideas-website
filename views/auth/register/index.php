@@ -6,7 +6,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/views/auth/register/register.html.php";
 
 if (isset($_POST['action']) and $_POST['action'] == 'register') {
-    include $_SERVER['DOCUMENT_ROOT'] . '/components/alert.html.php';
+    include "$_PATH[alertPath]";
 
     $Name = $_POST['Name'];
     $Email = $_POST['Email'];
@@ -44,7 +44,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'register') {
     } catch (PDOException $e) {
         $error = 'Error adding submitted Author/User.';
         generateAlert($error);
-        // include "$_PATH[errorPath]";
         exit();
     }
 
@@ -57,7 +56,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'register') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error assigning selected role to author.';
-        include "$_PATH[errorPath]";
+        generateAlert($error);
         exit();
     }
 
