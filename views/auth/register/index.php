@@ -13,6 +13,12 @@ if (isset($_POST['action']) and $_POST['action'] == 'register') {
     $Password = $_POST['Password'];
     $ConfirmPassword = $_POST['ConfirmPassword'];
 
+    if ($Name == '' || $Email == '' || $Password == '' || $ConfirmPassword == '') {
+        $message = 'Error: Field is empty';
+        generateAlert($message);
+        exit();
+    }
+
     if ($Password != $ConfirmPassword) {
         $message = 'Error: Password not matched';
         generateAlert($message);
