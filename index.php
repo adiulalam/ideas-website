@@ -6,6 +6,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'search') {
     searchIdeas();
 }
 
+
 include "$_PATH[databasePath]";
 try {
     $result = $pdo->query('SELECT Author_ID, Name FROM Author');
