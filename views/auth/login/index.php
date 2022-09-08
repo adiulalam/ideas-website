@@ -15,8 +15,6 @@ include "$_PATH[alertPath]";
 // }
 
 
-// customer();
-
 // if (!userHasRole('User')) {
 //     $error = 'Only signed up users may access this page.';
 //     generateAlert($error);
@@ -56,7 +54,6 @@ function userIsLoggedIn()
             $_SESSION['loggedIn'] = TRUE;
             $_SESSION['Email'] = $Email;
             $_SESSION['Password'] = $Password;
-            // echo "<script> location.href='/'; </script>";
             header('Location: ' . '/');
             return TRUE;
         } else {
@@ -96,7 +93,6 @@ function databaseContainsAuthor($Email, $Password)
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error searching for Author.';
-        // include 'error.html.php';
         generateAlert($error);
         exit();
     }
@@ -122,7 +118,6 @@ function userHasRole($Role)
     } catch (PDOException $e) {
         $error = 'Error searching for Author roles.';
         generateAlert($error);
-        // include 'error.html.php';
         exit();
     }
     $row = $s->fetch();
@@ -135,6 +130,8 @@ function userHasRole($Role)
 
 function customer()
 {
+    include $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
+    include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
     include "$_PATH[databasePath]";
     try {
         $sql = "SELECT Author_ID FROM Author WHERE Email = :Email AND Password = :Password";
@@ -145,7 +142,6 @@ function customer()
     } catch (PDOException $e) {
         $error = 'Error selecting customers';
         generateAlert($error);
-        // include 'error.html.php';
         exit();
     }
     $row = $s->fetch();

@@ -1,27 +1,28 @@
 <?php
+error_reporting(0);
 include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
-// if (!userIsLoggedIn()) {
-//     include $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/login.html.php';
-//     exit();
-// }
+session_start();
+customer();
 
-$navBarLogout = "
+$navBarAuth = "
+<a 
+href='?Author=$_SESSION[aid]&Category=&action=search&text=' 
+class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>See My Ideas</a>
 <form action='' method='post'> 
-<button type='submit' href='#' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
+<button type='submit' href='#' class='text-gray-300 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
 <input type='hidden' name='action' value='logout'>
 </form> 
 ";
 
-$navBarAuth = "
+$navBarNotAuth = "
 <a href='/views/auth/register/' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Register</a>
 <a href='/views/auth/login/login.html.php' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Login</a>
 ";
 
-$navBarButton = userIsLoggedIn() ? $navBarLogout : $navBarAuth;
+$navBarButton = userIsLoggedIn() ? $navBarAuth : $navBarNotAuth;
 
 $navBar = "
 <nav class='bg-gray-800'>
@@ -42,7 +43,6 @@ $navBar = "
             <div class='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
                 <div class='hidden sm:ml-6 sm:block'>
                     <div class='flex space-x-4'>
-                        <!-- Current: 'bg-gray-900 text-white', Default: 'text-gray-300 hover:bg-gray-700 hover:text-white' -->
                         <a href='/' class='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' aria-current='page'>Home</a>
 
                         <a href='#' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>About Me</a>
@@ -75,14 +75,3 @@ $navBar = "
 ";
 
 echo $navBar;
-
-
-if (isset($_POST['action']) and $_POST['action'] == 'logout') {
-    echo '<script>alert("Welcome to Geeks for Geeks")</script>';
-    // session_start();
-    // unset($_SESSION['loggedIn']);
-    // unset($_SESSION['Email']);
-    // unset($_SESSION['Password']);
-    // header('Location: ' . '/');
-    exit();
-}
