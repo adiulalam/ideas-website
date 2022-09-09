@@ -5,11 +5,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 if (isset($_GET['addform'])) {
     include "$_PATH[databasePath]";
     require_once "$_PATH[purifierPath]";
+
     $purifier = new HTMLPurifier();
-
-
-
     $text = $purifier->purify($_POST['text']);
+
     $Author = $_POST['Author'];
     $Category = isset($_POST['categories']);
     $Department = isset($_POST['departments']);
