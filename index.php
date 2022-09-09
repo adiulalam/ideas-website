@@ -1,8 +1,63 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
+if (isset($_GET['action']) and $_GET['action'] == 'addIdea') {
+    include "$_PATH[databasePath]";
+
+    $pageTitle = 'New Idea';
+    $action = 'addform';
+    $text = '';
+    $AuthorID = '';
+    $ID = '';
+    $button = 'Add Idea';
+
+
+    try {
+        $result = $pdo->query('SELECT Author_ID, Name FROM Author');
+    } catch (PDOException $e) {
+        $error = 'Error fetching list of authors';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    foreach ($result as $row) {
+        $authors[] = array('ID' => $row['Author_ID'], 'Name' => $row['Name']);
+    }
+
+    //build list of departments    
+    try {
+        $result = $pdo->query('SELECT ID, Name FROM Department');
+    } catch (PDOException $e) {
+        $error = 'Error fetching list of department';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    foreach ($result as $row) {
+        $departments[] = array('ID' => $row['ID'], 'Name' => $row['Name'], 'selected' => FALSE);
+    }
+
+
+    //build list of categories    
+    try {
+        $result = $pdo->query('SELECT ID, Name FROM Category');
+    } catch (PDOException $e) {
+        $error = 'Error fetching list of categories';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    foreach ($result as $row) {
+        $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name'], 'selected' => FALSE);
+    }
+
+    include "$_PATH[ideasFormPath]";
+    exit();
+}
+
+
 if (isset($_GET['action']) and $_GET['action'] == 'search') {
-    include "$_PATH[searchIdeasPath]";;
+    include "$_PATH[searchIdeasPath]";
     searchIdeas();
 }
 
