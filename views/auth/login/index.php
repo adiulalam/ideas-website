@@ -3,25 +3,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 include "$_PATH[alertPath]";
 
-// if (!userIsLoggedIn()) {
-//     include 'login.html.php';
-//     exit();
-// } else {
-//     header('Location: ' . '/');
-// }
-
-// if (userIsLoggedIn()) {
-//     header('Location: ' . '/');
-// }
-
-
-// if (!userHasRole('User')) {
-//     $error = 'Only signed up users may access this page.';
-//     generateAlert($error);
-//     exit();
-// }
-
-
 function userIsLoggedIn()
 {
     if (isset($_POST['action']) and $_POST['action'] == 'login') {

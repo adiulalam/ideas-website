@@ -4,32 +4,25 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
 if (isset($_GET['addform'])) {
     include "$_PATH[databasePath]";
+    require_once "$_PATH[purifierPath]";
+    $purifier = new HTMLPurifier();
 
 
-    $text = $_POST['text'];
+
+    $text = $purifier->purify($_POST['text']);
     $Author = $_POST['Author'];
-    $Category = $_POST['categories'];
-    $Department = $_POST['departments'];
+    $Category = isset($_POST['categories']);
+    $Department = isset($_POST['departments']);
 
 
-    // $message = json_encode($clean);
-    // $message = json_encode($clean);
-    // generateAlert($message);
-    // echo "<script type='text/javascript'>alert('$message');</script>";
-
-    if ($text == '' || $Author == '' || $Category == '' || $Department == '') {
+    if ($text == '' || $Author == '' || $Category == '' || !(isset($Category)) || $Department == '' || !(isset($Department))) {
         $error = 'Error: Field is empty';
         include "$_PATH[errorPath]";
         exit();
     }
 
-    exit();
 
-    // if ($_POST['Author'] == '' || $_POST['text'] == '' || $_POST['Email'] == '') {
-    //     $error = 'You must choose an author or enter text for this idea, Click back and try again';
-    //     include 'error.html.php';
-    //     exit();
-    // }
+    exit();
 
     /*****************************************************/
     //Insert documents
