@@ -33,7 +33,7 @@ if (!userIsLoggedIn()) {
                     <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl dark:text-white">
                         <?php html($pageTitle); ?>
                     </h1>
-                    <form class="space-y-4 md:space-y-6" action="?<?php html($action); ?>" method="POST">
+                    <form class="space-y-4 md:space-y-6" action="?<?php html($action); ?>" method="POST" enctype="multipart/form-data">
                         <div>
                             <label for="ideaText" class="block mb-2 text-sm font-medium dark:text-white">Your idea here:</label>
                             <textarea name="text" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your idea" required><?php html($text); ?></textarea>
@@ -60,8 +60,8 @@ if (!userIsLoggedIn()) {
                                 <li class="w-full rounded-t-lg ">
                                     <?php foreach ($departments as $Department) : ?>
                                         <div class="flex items-center pl-3">
-                                            <input type="checkbox" name="departments[]" value="<?php html($Departmenty['ID']); ?>" <?php if ($Department['selected']) echo ' checked' ?> class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                            <label for="Category<?php html($Department['ID']); ?>" class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300"><?php html($Department['Name']); ?></label>
+                                            <input type="checkbox" name="departments[]" value="<?php html($Department['ID']); ?>" <?php if ($Department['selected']) echo ' checked' ?> class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                            <label for="Department<?php html($Department['ID']); ?>" class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300"><?php html($Department['Name']); ?></label>
                                         </div>
                                     <?php endforeach; ?>
                                 </li>
@@ -70,7 +70,7 @@ if (!userIsLoggedIn()) {
 
                         <div>
                             <label for="ideaText" class="block mb-2 text-sm font-medium dark:text-white">Upload File</label>
-                            <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
+                            <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" name="myfile" type="file">
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG</p>
                         </div>
 

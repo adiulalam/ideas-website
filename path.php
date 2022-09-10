@@ -5,6 +5,8 @@ $_PATH["purifierPath"] = $_SERVER['DOCUMENT_ROOT'] . '/connection/includes/HTMLP
 
 $_PATH["ideasPath"] = $_SERVER['DOCUMENT_ROOT'] . '/views/ideas/ideas.html.php';
 $_PATH["ideasFormPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/form.html.php";
+
 $_PATH["searchIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/search.php";
+$_PATH["addIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/add.php";
 
 $_PATH["alertPath"] = $_SERVER['DOCUMENT_ROOT'] . '/components/alert.html.php';
