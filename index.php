@@ -2,6 +2,16 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
 
+if (isset($_GET['editform'])) {
+    include "$_PATH[editIdeasPath]";
+    ideasEditSubmit();
+}
+
+if (isset($_POST['action']) and $_POST['action'] == 'Edit') {
+    include "$_PATH[editIdeasPath]";
+    ideasEditForm();
+}
+
 if (isset($_GET['addform'])) {
     include "$_PATH[addIdeasPath]";
     ideasAddSubmit();
