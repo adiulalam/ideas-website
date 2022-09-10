@@ -1,4 +1,49 @@
-<?php if (isset($ideas)) : ?>
+<?php
+function mutationCheck($IdeaID, $totalIdeas)
+{
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+
+    $authorID =  $_SESSION['aid'];
+
+    if (!userIsLoggedIn() || !$authorID) {
+        return false;
+    }
+
+    if (in_array($IdeaID, $totalIdeas)) {
+        $mutationForm = "
+        <form action='?' method='post' class=' float-right inline-flex items-center '>
+            <input type='hidden' name='ID' value='$IdeaID'>
+            <input type='submit' name='action' value='Edit' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
+            <input type='submit' name='action' value='Delete' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800'>
+        </form>";
+
+        echo $mutationForm;
+    } else {
+        return false;
+    }
+}
+?>
+
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+if (userIsLoggedIn() || $_SESSION['aid']) {
+    $authorID =  $_SESSION['aid'];
+    try {
+        $sql = "SELECT ID FROM Idea WHERE AuthorID= :AuthorID";
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':AuthorID', $authorID);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error fetching ideas for author';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+    foreach ($s as $row) {
+        $totalIdeas[] = $row['ID'];
+    }
+}
+
+if (isset($ideas)) : ?>
     <?php foreach ($ideas as $Idea) : ?>
         <div class="flex flex-col my-auto items-center bgimg bg-cover p-3">
             <div class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -21,7 +66,7 @@
                             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                         </svg>
                     </a>
-
+                    <?php mutationCheck($Idea['ID'], $totalIdeas) ?>
                     <div>
                         <a href="#" class="inline-flex mr-1 float-right items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
