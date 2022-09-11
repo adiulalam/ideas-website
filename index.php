@@ -1,7 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
-
 if (isset($_GET['editform'])) {
     include "$_PATH[editIdeasPath]";
     ideasEditSubmit();
@@ -21,7 +20,6 @@ if (isset($_GET['action']) and $_GET['action'] == 'addIdea') {
     include "$_PATH[addIdeasPath]";
     ideasAddForm();
 }
-
 
 if (isset($_GET['action']) and $_GET['action'] == 'search') {
     include "$_PATH[searchIdeasPath]";
@@ -52,7 +50,7 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
-$limit = isset($_POST["limit-records"]) ? $_POST["limit-records"] : 10;
+$limit = isset($_GET["limit-records"]) ? $_GET["limit-records"] : 10;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
 
@@ -77,8 +75,8 @@ $next = ($page == $pages) ? $pages : $page + 1;
 
 $orderby = ' IdeaDate DESC';
 
-if (isset($_POST["orderBy"])) {
-    $orderby = $_POST["orderBy"];
+if (isset($_GET["orderBy"])) {
+    $orderby = $_GET["orderBy"];
 }
 
 try {
