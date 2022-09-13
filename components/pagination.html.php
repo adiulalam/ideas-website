@@ -1,6 +1,7 @@
 <div class="flex justify-center py-2">
     <div class="float left mr-5">
         <form method="get" action="?">
+            <input type="hidden" name="page" value="<?php echo isset(($_GET['page'])) ? ($_GET['page']) : 1; ?>">
             <select Name="orderBy" ID="orderBy" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange='this.form.submit()'>
                 <option disabled="disabled" selected="selected">Order By: </option>
                 <option value="IdeaText ASC" <?php if (isset($_GET["orderBy"]) && $_GET["orderBy"] == "IdeaText ASC") echo "selected" ?>>Name ASC</option>
@@ -14,38 +15,37 @@
         </form>
     </div>
 
-    <ul class="flex">
-        <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-            <a href="?page=<?= $previous; ?>" aria-label="Previous">
-                <span aria-hidden="true">&laquo; Previous</span>
-            </a>
-        </li>
-        <?php for ($i = 1; $i <= $pages; $i++) : ?>
-            <?php if ($i <= 5) { ?>
-                <li class=" mx-1 <?php echo $i == $page ? 'dark:bg-gray-500' : 'bg-gray-300' ?> hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                    <a class="block h-fit w-fit" href="?page=<?= $i;
-                                                                echo '&' . htmlspecialchars($_GET['orderBy']) ?>"><?= $i; ?></a>
+    <form method="get" action="?">
+        <ul class="flex">
+            <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                <button class="block h-fit w-fit" name="page" type="submit" value="<?= $previous; ?>">&laquo; Previous</button>
+            </li>
+            <?php for ($i = 1; $i <= $pages; $i++) : ?>
+                <?php if ($i <= 5) { ?>
+                    <li class=" mx-1 <?php echo $i == $page ? 'dark:bg-gray-500' : 'bg-gray-300' ?> hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        <button class="block h-fit w-fit" name="page" type="submit" value="<?= $i; ?>"><?= $i; ?></button>
 
-                </li>
-                <input type="hidden" name="orderBy" value="<?php echo htmlspecialchars($_GET['orderBy']); ?>">
-            <?php } else break; ?>
-        <?php endfor; ?>
+                    </li>
+                <?php } else break; ?>
+            <?php endfor; ?>
 
-        <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-            <a href="?page=<?= $next; ?>" aria-label="Next">
-                <span aria-hidden="true">Next &raquo;</span>
-            </a>
-        </li>
-    </ul>
+            <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                <button class="block h-fit w-fit" name="page" type="submit" value="<?= $next; ?>">Next &raquo;</button>
+            </li>
+        </ul>
+        <input type="hidden" name="orderBy" value="<?php echo isset(($_GET['orderBy'])) ? ($_GET['orderBy']) : 'IdeaDate DESC'; ?>">
+        <input type="hidden" name="limit-records" value="<?php echo isset(($_GET['limit-records'])) ? ($_GET['limit-records']) : 10; ?>">
+    </form>
 
     <div class="float right ml-5">
         <form method="get" action="?">
+            <input type="hidden" name="page" value="<?php echo isset(($_GET['page'])) ? ($_GET['page']) : 1; ?>">
+            <input type="hidden" name="orderBy" value="<?php echo isset(($_GET['orderBy'])) ? ($_GET['orderBy']) : 'IdeaDate DESC'; ?>">
             <select name="limit-records" id="limit-records" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange='this.form.submit()'>
                 <option disabled="disabled" selected="selected">Limit: </option>
                 <?php foreach ([10, 20, 50, 100] as $limit) : ?>
                     <option <?php if (isset($_GET["limit-records"]) && $_GET["limit-records"] == $limit) echo "selected" ?> value="<?= $limit; ?>"><?= $limit; ?></option>
                 <?php endforeach; ?>
-                <input type="hidden" name="orderBy" value="<?php echo isset(($_GET['orderBy'])) ? ($_GET['orderBy']) : 'IdeaDate DESC'; ?>">
             </select>
         </form>
     </div>

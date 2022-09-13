@@ -73,6 +73,13 @@ $pages = ceil($total / $limit);
 $previous = ($page == 1) ? 1 : $page - 1;
 $next = ($page == $pages) ? $pages : $page + 1;
 
+
+if (isset($_GET["page"])) {
+    $pageSelected = $_GET["page"];
+    // echo "<script type='text/javascript'>alert('$pageSelected');</script>";
+    $start = ($pageSelected - 1) * $limit;
+}
+
 $orderby = ' IdeaDate DESC';
 
 if (isset($_GET["orderBy"])) {
