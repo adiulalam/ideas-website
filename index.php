@@ -50,7 +50,7 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
-$limit = isset($_GET["limit-records"]) ? $_GET["limit-records"] : 10;
+$limit = isset($_GET["limitRecords"]) ? $_GET["limitRecords"] : 10;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
 
@@ -76,7 +76,6 @@ $next = ($page == $pages) ? $pages : $page + 1;
 
 if (isset($_GET["page"])) {
     $pageSelected = $_GET["page"];
-    // echo "<script type='text/javascript'>alert('$pageSelected');</script>";
     $start = ($pageSelected - 1) * $limit;
 }
 

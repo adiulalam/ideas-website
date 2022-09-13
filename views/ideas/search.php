@@ -35,9 +35,14 @@ function searchIdeas()
     $limit = $_POST["limitData"];
   }
 
-  $limit = isset($_POST["limit-records"]) ? $_POST["limit-records"] : 10;
+  $limit = isset($_POST["limitRecords"]) ? $_POST["limitRecords"] : 10;
   $page = isset($_GET['page']) ? $_GET['page'] : 1;
   $start = ($page - 1) * $limit;
+
+  if (isset($_GET["page"])) {
+    $pageSelected = $_GET["page"];
+    $start = ($pageSelected - 1) * $limit;
+  }
 
   try {
     $sql = $selectCount . $from . $where . " ORDER BY $orderby" . " LIMIT $start, $limit";

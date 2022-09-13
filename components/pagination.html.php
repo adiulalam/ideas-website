@@ -11,7 +11,7 @@
                 <option value="Vote ASC" <?php if (isset($_GET["orderBy"]) && $_GET["orderBy"] == "Vote ASC") echo "selected" ?>>Vote ASC</option>
                 <option value="Vote DESC" <?php if (isset($_GET["orderBy"]) && $_GET["orderBy"] == "Vote DESC") echo "selected" ?>>Vote DESC</option>
             </select>
-            <input type="hidden" name="limit-records" value="<?php echo isset(($_GET['limit-records'])) ? ($_GET['limit-records']) : 10; ?>">
+            <input type="hidden" name="limitRecords" value="<?php echo isset(($_GET['limitRecords'])) ? ($_GET['limitRecords']) : 10; ?>">
         </form>
     </div>
 
@@ -34,17 +34,17 @@
             </li>
         </ul>
         <input type="hidden" name="orderBy" value="<?php echo isset(($_GET['orderBy'])) ? ($_GET['orderBy']) : 'IdeaDate DESC'; ?>">
-        <input type="hidden" name="limit-records" value="<?php echo isset(($_GET['limit-records'])) ? ($_GET['limit-records']) : 10; ?>">
+        <input type="hidden" name="limitRecords" value="<?php echo isset(($_GET['limitRecords'])) ? ($_GET['limitRecords']) : 10; ?>">
     </form>
 
     <div class="float right ml-5">
         <form method="get" action="?">
             <input type="hidden" name="page" value="<?php echo isset(($_GET['page'])) ? ($_GET['page']) : 1; ?>">
             <input type="hidden" name="orderBy" value="<?php echo isset(($_GET['orderBy'])) ? ($_GET['orderBy']) : 'IdeaDate DESC'; ?>">
-            <select name="limit-records" id="limit-records" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange='this.form.submit()'>
+            <select name="limitRecords" id="limitRecords" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange='this.form.submit()'>
                 <option disabled="disabled" selected="selected">Limit: </option>
                 <?php foreach ([10, 20, 50, 100] as $limit) : ?>
-                    <option <?php if (isset($_GET["limit-records"]) && $_GET["limit-records"] == $limit) echo "selected" ?> value="<?= $limit; ?>"><?= $limit; ?></option>
+                    <option <?php if (isset($_GET["limitRecords"]) && $_GET["limitRecords"] == $limit) echo "selected" ?> value="<?= $limit; ?>"><?= $limit; ?></option>
                 <?php endforeach; ?>
             </select>
         </form>
