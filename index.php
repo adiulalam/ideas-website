@@ -21,12 +21,13 @@ if (isset($_GET['action']) and $_GET['action'] == 'addIdea') {
     ideasAddForm();
 }
 
-if (isset($_GET['action']) and $_GET['action'] == 'search') {
-    include "$_PATH[searchIdeasPath]";
-    searchIdeas();
-}
+// if (isset($_GET['action']) and $_GET['action'] == 'search') {
+//     include "$_PATH[searchIdeasPath]";
+//     searchIdeas();
+// }
 
 include "$_PATH[databasePath]";
+
 try {
     $result = $pdo->query('SELECT Author_ID, Name FROM Author');
 } catch (PDOException $e) {
@@ -50,14 +51,45 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
+$select = 'SELECT *, Author.Name FROM';
+$selectCount = 'SELECT COUNT(Idea.ID) as id FROM';
+$from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
+$where = ' WHERE TRUE';
+$placeholders = array();
+$orderby = isset($_GET["orderBy"]) ? " ORDER BY $_GET[orderBy]" : ' ORDER BY IdeaDate DESC';
+
 $limit = isset($_GET["limitRecords"]) ? $_GET["limitRecords"] : 10;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
 
+if (isset($_GET["page"])) {
+    $pageSelected = $_GET["page"];
+    $start = ($pageSelected - 1) * $limit;
+}
+
+if (isset($_GET['action']) and $_GET['action'] == 'search') {
+
+    if (isset($_GET["Author"]) && $_GET['Author'] != '') {
+        $where .= " AND AuthorID = :AuthorID";
+        $placeholders[':AuthorID'] = $_GET['Author'];
+    }
+
+    if (isset($_GET["Category"]) && $_GET['Category'] != '') {
+        $from .= ' INNER JOIN IdeaCategory ON ID= IdeaID';
+        $where .= " AND CategoryID = :CategoryID";
+        $placeholders[':CategoryID'] = $_GET['Category'];
+    }
+
+    if (isset($_GET["text"]) && $_GET['text'] != '') {
+        $where .= " AND LOWER(IdeaText) LIKE LOWER(:IdeaText)";
+        $placeholders[':IdeaText'] = "%" . $_GET['text'] . "%";
+    }
+}
+
 try {
-    $sql = "SELECT count(ID) AS id FROM Idea";
+    $sql = "$selectCount $from $where $orderby";
     $s = $pdo->prepare($sql);
-    $s->execute(array());
+    $s->execute($placeholders);
 } catch (PDOException $e) {
     $error = 'Error fetching ideas count';
     include "$_PATH[errorPath]";
@@ -73,26 +105,12 @@ $pages = ceil($total / $limit);
 $previous = ($page == 1) ? 1 : $page - 1;
 $next = ($page == $pages) ? $pages : $page + 1;
 
-
-if (isset($_GET["page"])) {
-    $pageSelected = $_GET["page"];
-    $start = ($pageSelected - 1) * $limit;
-}
-
-$orderby = ' IdeaDate DESC';
-
-if (isset($_GET["orderBy"])) {
-    $orderby = $_GET["orderBy"];
-}
-
 try {
-    $sql = "SELECT *, Author.Name FROM Idea INNER JOIN Author 
-    ON Idea.AuthorID = Author.Author_ID ORDER BY $orderby LIMIT $start, $limit ";
-
+    $sql = "$select $from $where $orderby LIMIT $start, $limit ";
     $s = $pdo->prepare($sql);
-    $s->execute(array());
+    $s->execute($placeholders);
 } catch (PDOException $e) {
-    $error = 'Error fetching ideas';
+    $error = 'Error fetching ideas' . $e;
     include "$_PATH[errorPath]";
     exit();
 }

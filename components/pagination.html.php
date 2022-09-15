@@ -12,10 +12,14 @@
                 <option value="Vote DESC" <?php if (isset($_GET["orderBy"]) && $_GET["orderBy"] == "Vote DESC") echo "selected" ?>>Vote DESC</option>
             </select>
             <input type="hidden" name="limitRecords" value="<?php echo isset(($_GET['limitRecords'])) ? ($_GET['limitRecords']) : 10; ?>">
+            <input type="hidden" name="Author" value="<?php echo isset($_GET["Author"]) ? $_GET["Author"] : '' ?>">
+            <input type="hidden" name="Category" value="<?php echo isset($_GET["Category"]) ? $_GET["Category"] : '' ?>">
+            <input type="hidden" name="text" value="<?php echo isset($_GET["text"]) ? $_GET["text"] : '' ?>">
+            <input type="hidden" name="action" value="search">
         </form>
     </div>
 
-    <form method="get" action="?">
+    <form method=" get" action="?">
         <ul class="flex">
             <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
                 <button class="block h-fit w-fit" name="page" type="submit" value="<?= $previous; ?>">&laquo; Previous</button>
@@ -24,7 +28,6 @@
                 <?php if ($i <= 5) { ?>
                     <li class=" mx-1 <?php echo $i == $page ? 'dark:bg-gray-500' : 'bg-gray-300' ?> hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                         <button class="block h-fit w-fit" name="page" type="submit" value="<?= $i; ?>"><?= $i; ?></button>
-
                     </li>
                 <?php } else break; ?>
             <?php endfor; ?>
@@ -35,6 +38,10 @@
         </ul>
         <input type="hidden" name="orderBy" value="<?php echo isset(($_GET['orderBy'])) ? ($_GET['orderBy']) : 'IdeaDate DESC'; ?>">
         <input type="hidden" name="limitRecords" value="<?php echo isset(($_GET['limitRecords'])) ? ($_GET['limitRecords']) : 10; ?>">
+        <input type="hidden" name="Author" value="<?php echo isset($_GET["Author"]) ? $_GET["Author"] : '' ?>">
+        <input type="hidden" name="Category" value="<?php echo isset($_GET["Category"]) ? $_GET["Category"] : '' ?>">
+        <input type="hidden" name="text" value="<?php echo isset($_GET["text"]) ? $_GET["text"] : '' ?>">
+        <input type="hidden" name="action" value="search">
     </form>
 
     <div class="float right ml-5">
@@ -47,6 +54,10 @@
                     <option <?php if (isset($_GET["limitRecords"]) && $_GET["limitRecords"] == $limit) echo "selected" ?> value="<?= $limit; ?>"><?= $limit; ?></option>
                 <?php endforeach; ?>
             </select>
+            <input type="hidden" name="Author" value="<?php echo isset($_GET["Author"]) ? $_GET["Author"] : '' ?>">
+            <input type="hidden" name="Category" value="<?php echo isset($_GET["Category"]) ? $_GET["Category"] : '' ?>">
+            <input type="hidden" name="text" value="<?php echo isset($_GET["text"]) ? $_GET["text"] : '' ?>">
+            <input type="hidden" name="action" value="search">
         </form>
     </div>
 </div>
