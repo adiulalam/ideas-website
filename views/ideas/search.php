@@ -32,20 +32,20 @@ function searchIdeas()
   }
 
   if (isset($_POST['limitData'])) {
-    $limit = $_POST["limitData"];
+    $offset = $_POST["limitData"];
   }
 
-  $limit = isset($_POST["limitRecords"]) ? $_POST["limitRecords"] : 10;
+  $offset = isset($_POST["limitRecords"]) ? $_POST["limitRecords"] : 10;
   $page = isset($_GET['page']) ? $_GET['page'] : 1;
-  $start = ($page - 1) * $limit;
+  $start = ($page - 1) * $offset;
 
   if (isset($_GET["page"])) {
     $pageSelected = $_GET["page"];
-    $start = ($pageSelected - 1) * $limit;
+    $start = ($pageSelected - 1) * $offset;
   }
 
   try {
-    $sql = $selectCount . $from . $where . " ORDER BY $orderby" . " LIMIT $start, $limit";
+    $sql = $selectCount . $from . $where . " ORDER BY $orderby" . " LIMIT $start, $offset";
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
   } catch (PDOException $e) {
@@ -58,13 +58,13 @@ function searchIdeas()
   }
 
   $total = $total[0]['id'];
-  $pages = ceil($total / $limit);
+  $pages = ceil($total / $offset);
 
   $previous = ($page == 1) ? 1 : $page - 1;
   $next = ($page == $pages) ? $pages : $page + 1;
 
   try {
-    $sql = $select . $from . $where . " ORDER BY $orderby" . " LIMIT $start, $limit";
+    $sql = $select . $from . $where . " ORDER BY $orderby" . " LIMIT $start, $offset";
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
   } catch (PDOException $e) {

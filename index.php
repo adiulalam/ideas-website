@@ -21,11 +21,6 @@ if (isset($_GET['action']) and $_GET['action'] == 'addIdea') {
     ideasAddForm();
 }
 
-// if (isset($_GET['action']) and $_GET['action'] == 'search') {
-//     include "$_PATH[searchIdeasPath]";
-//     searchIdeas();
-// }
-
 include "$_PATH[databasePath]";
 
 try {
@@ -56,16 +51,16 @@ $selectCount = 'SELECT COUNT(Idea.ID) as id FROM';
 $from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
 $where = ' WHERE TRUE';
 $placeholders = array();
-$orderby = isset($_GET["orderBy"]) ? " ORDER BY $_GET[orderBy]" : ' ORDER BY IdeaDate DESC';
+$orderby = isset($_GET["orderBy"]) ? "ORDER BY $_GET[orderBy]" : "ORDER BY IdeaDate DESC";
 
-$limit = isset($_GET["limitRecords"]) ? $_GET["limitRecords"] : 10;
+$offset = isset($_GET["limitRecords"]) ? $_GET["limitRecords"] : 10;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-$start = ($page - 1) * $limit;
-
+$start = ($page - 1) * $offset;
 if (isset($_GET["page"])) {
     $pageSelected = $_GET["page"];
-    $start = ($pageSelected - 1) * $limit;
+    $start = ($pageSelected - 1) * $offset;
 }
+$limit = "LIMIT $start, $offset";
 
 if (isset($_GET['action']) and $_GET['action'] == 'search') {
 
@@ -100,13 +95,13 @@ foreach ($s as $row) {
 }
 
 $total = $total[0]['id'];
-$pages = ceil($total / $limit);
+$pages = ceil($total / $offset);
 
 $previous = ($page == 1) ? 1 : $page - 1;
 $next = ($page == $pages) ? $pages : $page + 1;
 
 try {
-    $sql = "$select $from $where $orderby LIMIT $start, $limit ";
+    $sql = "$select $from $where $orderby $limit";
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
 } catch (PDOException $e) {

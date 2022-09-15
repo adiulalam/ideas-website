@@ -50,8 +50,8 @@
             <input type="hidden" name="orderBy" value="<?php echo isset(($_GET['orderBy'])) ? ($_GET['orderBy']) : 'IdeaDate DESC'; ?>">
             <select name="limitRecords" id="limitRecords" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange='this.form.submit()'>
                 <option disabled="disabled" selected="selected">Limit: </option>
-                <?php foreach ([10, 20, 50, 100] as $limit) : ?>
-                    <option <?php if (isset($_GET["limitRecords"]) && $_GET["limitRecords"] == $limit) echo "selected" ?> value="<?= $limit; ?>"><?= $limit; ?></option>
+                <?php foreach ([10, 20, 50, 100] as $offset) : ?>
+                    <option <?php if (isset($_GET["limitRecords"]) && $_GET["limitRecords"] == $offset) echo "selected" ?> value="<?= $offset; ?>"><?= $offset; ?></option>
                 <?php endforeach; ?>
             </select>
             <input type="hidden" name="Author" value="<?php echo isset($_GET["Author"]) ? $_GET["Author"] : '' ?>">
