@@ -191,3 +191,5 @@ function ideasEditSubmit()
     header('Location: /');
     exit();
 }
+
+//todo add delete functionality

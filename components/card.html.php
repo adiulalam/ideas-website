@@ -27,12 +27,13 @@ function mutationCheck($IdeaID, $totalIdeas)
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 if (userIsLoggedIn() || $_SESSION['aid']) {
+
     $authorID =  $_SESSION['aid'];
     try {
-        $sql = "SELECT ID FROM Idea WHERE AuthorID= :AuthorID";
+        $subquery = "$select $from $where $orderby $limit";
+        $sql = "SELECT ID FROM ($subquery) AS subquery WHERE AuthorID = $authorID";
         $s = $pdo->prepare($sql);
-        $s->bindvalue(':AuthorID', $authorID);
-        $s->execute();
+        $s->execute($placeholders);
     } catch (PDOException $e) {
         $error = 'Error fetching ideas for author';
         include "$_PATH[errorPath]";

@@ -46,7 +46,7 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
-$select = 'SELECT *, Author.Name FROM';
+$select = 'SELECT ID, IdeaText, IdeaDate, Image, Vote, Document, AuthorID, Author.Name, Author.Author_ID FROM';
 $selectCount = 'SELECT COUNT(Idea.ID) as id FROM';
 $from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
 $where = ' WHERE TRUE';
