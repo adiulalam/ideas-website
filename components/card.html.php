@@ -5,7 +5,7 @@ function mutationCheck($IdeaID, $totalIdeas)
 
     $authorID =  $_SESSION['aid'];
 
-    if (!userIsLoggedIn() || !$authorID) {
+    if (!userIsLoggedIn() || !$authorID || !$totalIdeas || !$IdeaID) {
         return false;
     }
 
@@ -85,6 +85,8 @@ if (isset($ideas)) : ?>
                     </div>
                 </div>
             </div>
+
         </div>
+
     <?php endforeach; ?>
 <?php endif; ?>
