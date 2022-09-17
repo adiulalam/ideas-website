@@ -97,15 +97,15 @@ foreach ($s as $row) {
 $total = $total[0]['id'];
 $pages = ceil($total / $offset);
 
-$previous = ($page == 1) ? 1 : $page - 1;
-$next = ($page == $pages) ? $pages : $page + 1;
+$previous = ($page == 1 || $page < 1) ? 1 : $page - 1;
+$next = ($page == $pages || $page > $pages) ? $pages : $page + 1;
 
 try {
     $sql = "$select $from $where $orderby $limit";
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
 } catch (PDOException $e) {
-    $error = 'Error fetching ideas' . $e;
+    $error = 'Error fetching ideas';
     include "$_PATH[errorPath]";
     exit();
 }
