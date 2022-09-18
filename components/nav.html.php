@@ -4,9 +4,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
-session_start();
-customer();
-
 $navBarAuth = "
 <a 
 href='?Author=$_SESSION[aid]&Category=&action=search&text=' 
