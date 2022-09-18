@@ -4,7 +4,7 @@
 
 <head>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
   <meta charset="utf-8">
   <title>Ideal Ideas</title>
 </head>

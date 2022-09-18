@@ -9,5 +9,6 @@ $_PATH["ideasFormPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/form.html.ph
 $_PATH["searchIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/search.php";
 $_PATH["addIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/add.php";
 $_PATH["editIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/edit.php";
+$_PATH["deleteIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/delete.php";
 
 $_PATH["alertPath"] = $_SERVER['DOCUMENT_ROOT'] . '/components/alert.html.php';

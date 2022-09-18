@@ -1,30 +1,12 @@
 <?php
 
-function mutationCheck($IdeaID, $totalIdeas)
-{
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
-    $authorID =  $_SESSION['aid'];
-
-    if (!userIsLoggedIn() || !$authorID || !$totalIdeas || !$IdeaID) {
-        return false;
-    }
-
-    if (in_array($IdeaID, $totalIdeas)) {
-        $mutationForm = "
-        <form action='?' method='post' class=' float-right inline-flex items-center '>
-            <input type='hidden' name='ID' value='$IdeaID'>
-            <Button type='submit' name='action' value='Edit' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Edit</Button>
-            <Button type='submit' name='action' value='Delete' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800'>Delete</Button>
-        </form>";
-
-        echo $mutationForm;
-    } else {
-        return false;
-    }
+if (isset($_POST['action']) and $_POST['action'] == 'Delete') {
+    include "$_PATH[deleteIdeasPath]";
+    ideasDelete();
 }
 
-include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 if (isset($_GET['editform'])) {
     include "$_PATH[editIdeasPath]";
     ideasEditSubmit();
