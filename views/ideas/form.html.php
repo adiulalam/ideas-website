@@ -16,8 +16,7 @@ if (!userIsLoggedIn()) {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel=" stylesheet">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
     <meta charset="utf-8">
     <title><?php html($pageTitle); ?></title>
 </head>
@@ -68,10 +67,30 @@ if (!userIsLoggedIn()) {
                             </ul>
                         </fieldset>
 
-                        <div>
+                        <!-- <div>
                             <label for="ideaText" class="block mb-2 text-sm font-medium dark:text-white">Upload File</label>
                             <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" name="myfile" type="file">
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG</p>
+                        </div> -->
+
+                        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+                                <li class="mr-2" role="presentation">
+                                    <button class="inline-block p-4 rounded-t-lg border-b-2" id="upload-tab" data-tabs-target="#upload" type="button" role="tab" aria-controls="upload" aria-selected="false">Upload Image</button>
+                                </li>
+                                <li class="mr-2" role="presentation">
+                                    <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="link-tab" data-tabs-target="#link" type="button" role="tab" aria-controls="link" aria-selected="false">Link Image</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="myTabContent">
+                            <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                                <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" name="myfile" type="file">
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG or JPG Image Only</p>
+                            </div>
+                            <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="link" role="tabpanel" aria-labelledby="link-tab">
+                                <input name="Image" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="URL of image"><?php html($Image); ?></input>
+                            </div>
                         </div>
 
                         <input type="hidden" name="ID" value="<?php html($ID); ?>">
