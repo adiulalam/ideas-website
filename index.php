@@ -36,7 +36,6 @@ try {
     include "$_PATH[errorPath]";
     exit();
 }
-
 foreach ($result as $row) {
     $authors[] = array('ID' => $row['Author_ID'], 'Name' => $row['Name']);
 }
