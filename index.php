@@ -128,7 +128,7 @@ if (userIsLoggedIn() && $_SESSION['aid']) {
         $s = $pdo->prepare($sql);
         $s->execute($placeholders);
     } catch (PDOException $e) {
-        $error = 'Error fetching subquery ideas for author';
+        $error = 'Error fetching subquery ideas for author for Edit and Delete';
         include "$_PATH[errorPath]";
         exit();
     }
