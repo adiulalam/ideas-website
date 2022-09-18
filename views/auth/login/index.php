@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 include "$_PATH[alertPath]";

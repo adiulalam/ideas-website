@@ -5,17 +5,23 @@ function ideasEditForm()
     include "$_PATH[databasePath]";
 
     try {
-        $sql = 'SELECT ID, IdeaText, AuthorID FROM Idea WHERE ID= :ID';
+        session_start();
+        $authorID =  $_SESSION['aid'];
+        $sql = "SELECT ID, IdeaText, AuthorID FROM Idea WHERE ID= :ID AND AuthorID = :AuthorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $_POST['ID']);
+        $s->bindvalue(':AuthorID', $authorID);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error fetching idea details';
         include "$_PATH[errorPath]";
         exit();
     }
-
     $row = $s->fetch();
+    if ($row[0] <= 0) {
+        return false;
+    };
+
     $pageTitle = 'Edit Idea';
     $action = 'editform';
     $text = $row['IdeaText'];
@@ -115,14 +121,17 @@ function ideasEditSubmit()
     }
 
     try {
+        session_start();
+        $authorID =  $_SESSION['aid'];
         $sql = 'UPDATE Idea SET
         IdeaText=:IdeaText,
         AuthorID=:AuthorID
-        WHERE ID=:ID';
+        WHERE ID=:ID AND AuthorID=:Author_Session_ID';
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $_POST['ID']);
         $s->bindvalue(':IdeaText', $text);
         $s->bindvalue(':AuthorID', $Author);
+        $s->bindvalue(':Author_Session_ID', $authorID);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error updating submitted idea';
