@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 function ideasEditForm()
 {
     include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
@@ -7,7 +8,7 @@ function ideasEditForm()
     try {
         session_start();
         $authorID =  $_SESSION['aid'];
-        $sql = "SELECT ID, IdeaText, AuthorID FROM Idea WHERE ID= :ID AND AuthorID = :AuthorID";
+        $sql = "SELECT ID, IdeaText, Image, AuthorID FROM Idea WHERE ID= :ID AND AuthorID = :AuthorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $_POST['ID']);
         $s->bindvalue(':AuthorID', $authorID);
@@ -25,6 +26,7 @@ function ideasEditForm()
     $pageTitle = 'Edit Idea';
     $action = 'editform';
     $text = $row['IdeaText'];
+    $Image = $row['Image'];
     $AuthorID = $row['AuthorID'];
     $ID = $row['ID'];
     $button = 'Update Idea';
@@ -120,9 +122,72 @@ function ideasEditSubmit()
         exit();
     }
 
+
+    function updateImage($Image, $IdeaID)
+    {
+        include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
+        include "$_PATH[databasePath]";
+        try {
+            session_start();
+            $authorID = $_SESSION['aid'];
+            $sql = 'UPDATE Idea SET
+            Image= :Image
+            WHERE ID= :ID AND AuthorID= :Author_Session_ID';
+            $s = $pdo->prepare($sql);
+            $s->bindvalue(':ID', $IdeaID);
+            $s->bindvalue(':Image', $Image);
+            $s->bindvalue(':Author_Session_ID', $authorID);
+            $s->execute();
+        } catch (PDOException $e) {
+            $error = 'Error updating submitted idea Image';
+            include "$_PATH[errorPath]";
+            exit();
+        }
+    }
+
+    $filename = $_FILES['myfile']['name'];
+
+
+    if ($_POST['Image'] && $filename) {
+        $error = 'Error: Image was both uploaded and given a link';
+        include "$_PATH[errorPath]";
+        exit();
+    } elseif ($_POST['Image'] && !$filename) {
+        if (!str_contains($_POST['Image'], 'https://')) {
+            $error = 'Error: Image has invalid link';
+            include "$_PATH[errorPath]";
+            exit();
+        }
+        updateImage($_POST['Image'], $_POST['ID']);
+    } elseif (!$_POST['Image'] && $filename) {
+
+        $destination = $_SERVER['DOCUMENT_ROOT'] . '/assets/img/';
+
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        if ($extension != "jpg" && $extension != "png") {
+            $error = 'Error: Wrong file format';
+            include "$_PATH[errorPath]";
+            exit();
+        }
+        session_start();
+        $filename = date("Y-m-d_h.i.s_") . $_SESSION['aid'] . '_' . $filename;
+        $file = $_FILES['myfile']['tmp_name'];
+
+        if ($_POST['fileInputName'] && file_exists($destination . $_POST['fileInputName'])) {
+            unlink($destination . $_POST['fileInputName']);
+        }
+
+        if (!move_uploaded_file($file, ($destination . $filename))) {
+            $error = 'Error: Moving file';
+            include "$_PATH[errorPath]";
+            exit();
+        }
+        updateImage($filename, $_POST['ID']);
+    }
+
     try {
         session_start();
-        $authorID =  $_SESSION['aid'];
+        $authorID = $_SESSION['aid'];
         $sql = 'UPDATE Idea SET
         IdeaText=:IdeaText,
         AuthorID=:AuthorID
@@ -152,8 +217,8 @@ function ideasEditSubmit()
     if (isset($_POST['categories'])) {
         try {
             $sql = 'INSERT INTO IdeaCategory SET 
-        IdeaID= :IdeaID, 
-        CategoryID=:CategoryID';
+            IdeaID= :IdeaID, 
+            CategoryID=:CategoryID';
             $s = $pdo->prepare($sql);
             foreach ($_POST['categories'] as $CategoryID) {
                 $s->bindvalue(':IdeaID', $_POST['ID']);
@@ -182,8 +247,8 @@ function ideasEditSubmit()
     if (isset($_POST['departments'])) {
         try {
             $sql = 'INSERT INTO IdeaDepartment SET 
-        IdeaID= :IdeaID, 
-        DepartmentID=:DepartmentID';
+            IdeaID= :IdeaID, 
+            DepartmentID=:DepartmentID';
             $s = $pdo->prepare($sql);
             foreach ($_POST['departments'] as $DepartmentID) {
                 $s->bindvalue(':IdeaID', $_POST['ID']);
@@ -197,6 +262,6 @@ function ideasEditSubmit()
         }
     }
 
-    header('Location: /');
+    echo "<script> location.href='/'; </script>";
     exit();
 }

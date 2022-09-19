@@ -100,6 +100,11 @@ function ideasAddSubmit()
             exit();
         }
     } elseif ($Image && !$filename) {
+        if (!str_contains($Image, 'https://')) {
+            $error = 'Error: Image has invalid link';
+            include "$_PATH[errorPath]";
+            exit();
+        }
         $Document = $Image;
     } else {
         $Document = '';
