@@ -4,19 +4,31 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
+function currentDir($dir)
+{
+    $reqDir = $_SERVER['REQUEST_URI'];
+    if ($dir == $reqDir) {
+        $css = "class='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' aria-current='page'";
+        return $css;
+    } else {
+        $css = "class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'";
+        return $css;
+    }
+}
+
 $navBarAuth = "
 <a 
 href='?Author=$_SESSION[aid]&Category=&action=search&text=' 
-class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>See My Ideas</a>
+" . currentDir("/?Author=$_SESSION[aid]&Category=&action=search&text=") . " >See My Ideas</a>
 <form action='' method='post'> 
-<button type='submit' href='#' class='text-gray-300 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
+<button type='submit' href='/' class='text-gray-300 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
 <input type='hidden' name='action' value='logout'>
 </form> 
 ";
 
 $navBarNotAuth = "
-<a href='/views/auth/register/' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Register</a>
-<a href='/views/auth/login/login.html.php' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Login</a>
+<a href='/views/auth/register/' " . currentDir('/views/auth/register/') . " >Register</a>
+<a href='/views/auth/login/login.html.php' " . currentDir('/views/auth/login/login.html.php') . " >Login</a>
 ";
 
 $navBarButton = userIsLoggedIn() ? $navBarAuth : $navBarNotAuth;
@@ -40,11 +52,11 @@ $navBar = "
             <div class='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
                 <div class='hidden sm:ml-6 sm:block'>
                     <div class='flex space-x-4'>
-                        <a href='/' class='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' aria-current='page'>Home</a>
+                        <a href='/' " . currentDir('/') . " >Home</a>
 
-                        <a href='#' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>About Me</a>
+                        <a href='#' " . currentDir('#') . " >About Me</a>
 
-                        <a href='#' class='text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Contact Me</a>
+                        <a href='#' " . currentDir('#') . " >Contact Me</a>
 
                     </div>
                 </div>

@@ -21,7 +21,7 @@
 
     <form method=" get" action="?">
         <ul class="flex">
-            <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+            <li class="mx-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
                 <button class="block h-fit w-fit" name="page" type="submit" value="<?= $previous; ?>">&laquo; Previous</button>
             </li>
             <?php for ($i = 1; $i <= $pages; $i++) : ?>
@@ -32,7 +32,7 @@
                 <?php } else break; ?>
             <?php endfor; ?>
 
-            <li class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+            <li class="mx-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
                 <button class="block h-fit w-fit" name="page" type="submit" value="<?= $next; ?>">Next &raquo;</button>
             </li>
         </ul>
