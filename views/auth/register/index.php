@@ -72,7 +72,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'register') {
     $body = 'Your Account has been created and you can now login';
     mailer($to, $subject, $body);
 
-    $message = 'Success: Sign up completed, please check your email - Redirecting to Login page';
+    $message = 'Success: Sign up completed - Redirecting to Login page';
     generateAlert($message);
 
     sleep(2);
