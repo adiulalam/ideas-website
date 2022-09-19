@@ -12,3 +12,5 @@ $_PATH["editIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/edit.php";
 $_PATH["deleteIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/delete.php";
 
 $_PATH["alertPath"] = $_SERVER['DOCUMENT_ROOT'] . '/components/alert.html.php';
+
+$_PATH["phpMailer"] = $_SERVER['DOCUMENT_ROOT'] . '/connection/includes/phpmailer.php';

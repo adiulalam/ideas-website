@@ -1,4 +1,3 @@
-
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
@@ -6,7 +5,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/views/auth/register/register.html.php";
 
 if (isset($_POST['action']) and $_POST['action'] == 'register') {
-    include "$_PATH[alertPath]";
+    include "$_PATH[phpMailer]";
+    include_once "$_PATH[alertPath]";
 
     $Name = $_POST['Name'];
     $Email = $_POST['Email'];
@@ -66,10 +66,15 @@ if (isset($_POST['action']) and $_POST['action'] == 'register') {
         exit();
     }
 
+    //Send Mail Function
+    $to = $_POST['Email'];
+    $subject = 'Account Created';
+    $body = 'Your Account has been created and you can now login';
+    mailer($to, $subject, $body);
+
     $message = 'Success: Sign up completed, please check your email - Redirecting to Login page';
     generateAlert($message);
 
-    sleep(5);
-    echo "<script>location.href='/';</script>";
+    sleep(2);
+    echo "<script>location.href='/views/auth/login/login.html.php';</script>";
 }
-?>
