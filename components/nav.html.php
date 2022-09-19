@@ -17,12 +17,10 @@ function currentDir($dir)
 }
 
 $navBarAuth = "
-<a 
-href='?Author=$_SESSION[aid]&Category=&action=search&text=' 
-" . currentDir("/?Author=$_SESSION[aid]&Category=&action=search&text=") . " >See My Ideas</a>
+<a href='?Author=$_SESSION[aid]&Category=&action=search&text=' " . currentDir("/?Author=$_SESSION[aid]&Category=&action=search&text=") . " >See My Ideas</a>
 <form action='' method='post'> 
-<button type='submit' href='/' class='text-gray-300 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
-<input type='hidden' name='action' value='logout'>
+    <button type='submit' href='/' class='text-gray-300 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
+    <input type='hidden' name='action' value='logout'>
 </form> 
 ";
 
@@ -62,7 +60,9 @@ $navBar = "
                 </div>
             </div>
             <div class='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
-            $navBarButton
+                <div class='flex space-x-4'>
+                    $navBarButton
+                </div>
             </div>
         </div>
     </div>
