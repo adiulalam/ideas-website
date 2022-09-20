@@ -2,6 +2,11 @@
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
+if (isset($_GET['action']) and $_GET['action'] == 'Comment') {
+    include "$_PATH[commentIdeasPath]";
+    // ideasDelete();
+}
+
 if (isset($_POST['action']) and $_POST['action'] == 'Delete') {
     include "$_PATH[deleteIdeasPath]";
     ideasDelete();
@@ -138,3 +143,8 @@ if (userIsLoggedIn() && $_SESSION['aid']) {
 }
 
 include "$_PATH[ideasPath]";
+
+// todo add admin area
+// todo add comment section
+// todo add vote section
+// todo add email for comment section

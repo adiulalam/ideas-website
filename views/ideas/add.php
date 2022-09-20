@@ -18,7 +18,6 @@ function ideasAddForm()
         include "$_PATH[errorPath]";
         exit();
     }
-
     foreach ($result as $row) {
         $authors[] = array('ID' => $row['Author_ID'], 'Name' => $row['Name']);
     }
@@ -31,7 +30,6 @@ function ideasAddForm()
         include "$_PATH[errorPath]";
         exit();
     }
-
     foreach ($result as $row) {
         $departments[] = array('ID' => $row['ID'], 'Name' => $row['Name'], 'selected' => FALSE);
     }
@@ -45,7 +43,6 @@ function ideasAddForm()
         include "$_PATH[errorPath]";
         exit();
     }
-
     foreach ($result as $row) {
         $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name'], 'selected' => FALSE);
     }

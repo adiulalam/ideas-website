@@ -19,7 +19,7 @@
         </form>
     </div>
 
-    <form method=" get" action="?">
+    <form method="get" action="?">
         <ul class="flex">
             <li class="mx-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
                 <button class="block h-fit w-fit" name="page" type="submit" value="<?= $previous; ?>">&laquo; Previous</button>
