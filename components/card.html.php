@@ -37,7 +37,7 @@ function mutationCheck($IdeaID, $totalIdeas)
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>  
         ";
 
         echo $mutationForm;
