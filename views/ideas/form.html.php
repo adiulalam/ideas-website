@@ -17,6 +17,7 @@ if (!userIsLoggedIn()) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel=" stylesheet">
     <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
     <meta charset="utf-8">
     <title><?php html($pageTitle); ?></title>
 </head>
@@ -67,8 +68,8 @@ if (!userIsLoggedIn()) {
                             </ul>
                         </fieldset>
 
-                        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+                        <div class="mb-1 border-b border-gray-200 dark:border-gray-700">
+                            <ul class="flex flex-wrap text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                                 <li class="mr-2" role="presentation">
                                     <button class="inline-block p-4 rounded-t-lg border-b-2" id="upload-tab" data-tabs-target="#upload" type="button" role="tab" aria-controls="upload" aria-selected="<?php echo str_contains($Image, 'https://') ? 'true' : 'false' ?>">Upload Image</button>
                                 </li>
@@ -78,7 +79,7 @@ if (!userIsLoggedIn()) {
                             </ul>
                         </div>
                         <div id="myTabContent">
-                            <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                            <div class="hidden bg-gray-50 rounded-lg dark:bg-gray-800" id="upload" role="tabpanel" aria-labelledby="upload-tab">
                                 <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" name="myfile" type="file">
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help"><?php echo str_contains($Image, 'https://') ? 'PNG or JPG Image Only' : html($Image) ?></p>
                                 <input type='hidden' name='fileInputName' value='<?php echo str_contains($Image, 'https://') ? '' : html($Image) ?>'>
