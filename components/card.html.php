@@ -55,12 +55,14 @@ function commentCheck($IdeaID, $currentURL)
         return false;
     } else {
         $commentHTML = "
-        <button type='submit' name='action' value='Comment' class='inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
-            Comment
-            <svg aria-hidden='true' class='ml-2 -mr-1 w-4 h-4' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
-                <path fill-rule='evenodd' d='M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z' clip-rule='evenodd'></path>
-            </svg>
-        </button>
+        <a href='/?action=Comment&ideaID=$IdeaID' class='button'>
+            <button type='submit' name='action' value='Comment' class='inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
+                Comment
+                <svg aria-hidden='true' class='ml-2 -mr-1 w-4 h-4' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+                    <path fill-rule='evenodd' d='M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+                </svg>
+            </button>
+        </a>
         ";
         echo $commentHTML;
     }
@@ -72,9 +74,11 @@ function commentCheck($IdeaID, $currentURL)
         <div class="flex flex-col items-center justify-center">
             <div class="w-96 m-3 max-w-sm rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <form method="get" action="?">
-                    <button type="submit" name="action" value="Comment">
-                        <img class="rounded-t-lg" src="<?php echo str_contains($Idea['Image'], 'https://') ? $Idea['Image'] : "../assets/img/$Idea[Image]" ?>" alt="" />
-                    </button>
+                    <a href="<?php html("/?action=Comment&ideaID=$Idea[ID]") ?>" class="button">
+                        <button type="submit" name="action" value="Comment">
+                            <img class="rounded-t-lg" src="<?php echo str_contains($Idea['Image'], 'https://') ? $Idea['Image'] : "../assets/img/$Idea[Image]" ?>" alt="" />
+                        </button>
+                    </a>
 
                     <div class="mb-3">
                         <p class="mr-2 text-xs float-right italic font-light text-white-900 dark:text-gray-400"><?php html($Idea['IdeaDate']); ?></p>
