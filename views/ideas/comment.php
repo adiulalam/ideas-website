@@ -29,35 +29,22 @@ function time_elapsed_string($datetime)
     }
 }
 
-if (isset($_POST['postComment'])) {
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+if (isset($_POST['action']) and $_POST['action'] == 'deleteComment') {
 
-    session_start();
-    $authorID = $_SESSION['aid'];
-    $comment = $_POST['comment'];
-    $ideaID = $_GET['ideaID'];
-
-    if (!userIsLoggedIn() || !$authorID || !$ideaID) {
-        $error = 'Error: You need to login to comment';
-        include "$_PATH[errorPath]";
-        exit();
-    }
-
-    if (!$comment) {
-        $error = 'Error: Comment is empty';
-        include "$_PATH[errorPath]";
-        exit();
-    }
+    include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
+    include "$_PATH[databasePath]";
 
     try {
-        $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID';
+        $commentID = $_POST['ID'];
+        session_start();
+        $authorID =  $_SESSION['aid'];
+        $sql = "DELETE FROM Comment WHERE CommentID = :ID AND AuthorID = :AuthorID";
         $s = $pdo->prepare($sql);
-        $s->bindvalue(':Comment', $comment);
-        $s->bindvalue(':IdeaID', $ideaID);
+        $s->bindvalue(':ID', $commentID);
         $s->bindvalue(':AuthorID', $authorID);
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Error inserting Comment';
+        $error = 'Error deleting comment from Idea';
         include "$_PATH[errorPath]";
         exit();
     }
@@ -65,6 +52,8 @@ if (isset($_POST['postComment'])) {
     header('Location: ' . $_SERVER['REQUEST_URI']);
     exit();
 }
+
+
 
 $ideaID = $_GET['ideaID'];
 $pageTitle = 'Comment';
@@ -111,6 +100,77 @@ try {
 }
 foreach ($s as $row) {
     $comments[] = array('CommentID' => $row['CommentID'], 'Comment' => $row['Comment'], 'Time' => $row['Time'], 'Name' => $row['Name']);
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+if (userIsLoggedIn() && $_SESSION['aid']) {
+    $authorID =  $_SESSION['aid'];
+    $select = 'SELECT CommentID FROM';
+    $from = ' Comment';
+    $where = ' WHERE AuthorID = :AuthorID';
+    $placeholders = array();
+    $placeholders[':AuthorID'] = $authorID;
+    try {
+        $sql = "$select $from $where";
+        $s = $pdo->prepare($sql);
+        $s->execute($placeholders);
+    } catch (PDOException $e) {
+        $error = 'Error fetching Comments count for mutation';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+    foreach ($s as $row) {
+        $totalComments[] = $row['CommentID'];
+    }
+}
+
+if (isset($_POST['postComment'])) {
+    include "$_PATH[phpMailer]";
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+
+    session_start();
+    $authorID = $_SESSION['aid'];
+    $comment = $_POST['comment'];
+    $ideaID = $_GET['ideaID'];
+
+    if (!userIsLoggedIn() || !$authorID || !$ideaID) {
+        $error = 'Error: You need to login to comment';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    if (!$comment) {
+        $error = 'Error: Comment is empty';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    echo $emailAddress;
+
+    echo "<script type='text/javascript'>alert('$emailAddress');</script>";
+
+
+    try {
+        $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID';
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':Comment', $comment);
+        $s->bindvalue(':IdeaID', $ideaID);
+        $s->bindvalue(':AuthorID', $authorID);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error inserting Comment';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    //Send Mail Function
+    $to = $emailAddress;
+    $subject = 'New Comment on Your Idea';
+    $body = 'A new comment has been posted on your Idea. See Now..';
+    mailer($to, $subject, $body);
+
+    header('Location: ' . $_SERVER['REQUEST_URI']);
+    exit();
 }
 
 include "$_PATH[commentPath]";
