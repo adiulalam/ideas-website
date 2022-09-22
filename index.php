@@ -126,6 +126,8 @@ foreach ($s as $row) {
     $ideas[] = array('ID' => $row['ID'], 'text' => $row['IdeaText'], 'Image' => $row['Image'], 'IdeaDate' => $row['IdeaDate'], 'Name' => $row['Name'], 'Vote' => $row['Vote']);
     $Vote = $row['Vote'];
 }
+// todo Add this sql query for Vote
+//SELECT ID, COALESCE(SUM(Vote.VoteNumber), 0) Vote FROM Idea LEFT JOIN Vote ON Idea.ID = Vote.IdeaID GROUP BY ID;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 if (userIsLoggedIn() && $_SESSION['aid']) {
