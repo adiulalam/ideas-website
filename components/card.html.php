@@ -3,7 +3,7 @@ function mutationCheck($IdeaID, $totalIdeas)
 {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
-    $authorID =  $_SESSION['aid'];
+    $authorID = $_SESSION['aid'];
 
     if (!userIsLoggedIn() || !$authorID || !$totalIdeas || !$IdeaID) {
         return false;
@@ -70,7 +70,7 @@ function commentCheck($IdeaID, $currentURL)
 <?php if (isset($ideas)) :
     foreach ($ideas as $Idea) : ?>
         <div class="flex flex-col items-center justify-center">
-            <div class="w-full m-3 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-96 m-3 max-w-sm rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <form method="get" action="?">
                     <button type="submit" name="action" value="Comment">
                         <img class="rounded-t-lg" src="<?php echo str_contains($Idea['Image'], 'https://') ? $Idea['Image'] : "../assets/img/$Idea[Image]" ?>" alt="" />
@@ -82,7 +82,7 @@ function commentCheck($IdeaID, $currentURL)
                     </div>
 
                     <div class="p-5 mt-4">
-                        <h5 class=" mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><?php echo ($Idea['text']); ?></h5>
+                        <h5 class=" mb-2 text-2xl font-bold tracking-tight dark:text-white"><?php echo ($Idea['text']); ?></h5>
                         <?php commentCheck($Idea['ID'],  $_SERVER['REQUEST_URI']) ?>
                         <input type='hidden' name='ideaID' value='<?php echo ($Idea['ID']); ?>'>
                 </form>

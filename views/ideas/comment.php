@@ -2,34 +2,71 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 include "$_PATH[databasePath]";
 
-function time_elapsed_string($datetime, $full = false)
+function time_elapsed_string($datetime)
 {
-    $now = new DateTime;
-    $ago = new DateTime($datetime);
-    $diff = $now->diff($ago);
+    $etime = time() - strtotime($datetime);
 
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
-
-    $string = array(
-        'y' => 'year',
-        'm' => 'month',
-        'w' => 'week',
-        'd' => 'day',
-        'h' => 'hour',
-        'i' => 'minute',
-        's' => 'second',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-        } else {
-            unset($string[$k]);
-        }
+    if ($etime < 1) {
+        return 'less than ' . $etime . ' second ago';
     }
 
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? implode(', ', $string) . ' ago' : 'just now';
+    $a = array(
+        12 * 30 * 24 * 60 * 60  =>  'year',
+        30 * 24 * 60 * 60       =>  'month',
+        24 * 60 * 60            =>  'day',
+        60 * 60             =>  'hour',
+        60                  =>  'minute',
+        1                   =>  'second'
+    );
+
+    foreach ($a as $secs => $str) {
+        $d = $etime / $secs;
+
+        if ($d >= 1) {
+            $r = round($d);
+            return 'about ' . $r . ' ' . $str . ($r > 1 ? 's' : '') . ' ago';
+        }
+    }
+}
+
+if (isset($_POST['postComment'])) {
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+
+    session_start();
+    $authorID =  $_SESSION['aid'];
+    $comment = $_POST['comment'];
+    $ideaID = $_GET['ideaID'];
+
+    if (!userIsLoggedIn() || !$authorID || !$ideaID) {
+        $error = 'Error: You need to login to comment';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    if (!$comment) {
+        $error = 'Error: Comment is empty';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    // try {
+    //     $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID ;';
+    //     $s = $pdo->prepare($sql);
+    //     $s->bindvalue(':Comment', $comment);
+    //     $s->bindvalue(':IdeaID', $ideaID);
+    //     $s->bindvalue(':AuthorID', $authorID);
+    //     $s->execute();
+    // } catch (PDOException $e) {
+    //     $error = 'Error inserting Comment';
+    //     include "$_PATH[errorPath]";
+    //     exit();
+    // }
+
+    // $time = '2022-09-22 00:04:52';
+    $date = new DateTime('Europe/London');
+    $result = $date->format('Y-m-d H:i:s');
+
+    echo $result;
 }
 
 $ideaID = $_GET['ideaID'];
@@ -39,6 +76,7 @@ $select = 'SELECT ID, IdeaText, IdeaDate, Image, Vote, Document, AuthorID, Autho
 $from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
 $where = ' WHERE ID = :ID';
 $limit = "LIMIT 1";
+
 $placeholders = array();
 $placeholders[':ID'] = $ideaID;
 
@@ -61,11 +99,12 @@ foreach ($s as $row) {
 $select = 'SELECT CommentID, Comment, Time, Author.Name FROM';
 $from = ' Comment INNER JOIN Author ON Comment.AuthorID = Author.Author_ID';
 $where = ' WHERE IdeaID = :ID';
+$orderby = "ORDER BY Time DESC";
 $placeholders = array();
 $placeholders[':ID'] = $ideaID;
 
 try {
-    $sql = "$select $from $where";
+    $sql = "$select $from $where $orderby";
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
 } catch (PDOException $e) {
@@ -76,8 +115,6 @@ try {
 foreach ($s as $row) {
     $comments[] = array('CommentID' => $row['CommentID'], 'Comment' => $row['Comment'], 'Time' => $row['Time'], 'Name' => $row['Name']);
 }
-
-
 
 include "$_PATH[commentPath]";
 exit();
