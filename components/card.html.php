@@ -15,7 +15,7 @@ function mutationCheck($IdeaID, $totalIdeas)
             <input type='hidden' name='ID' value='$IdeaID'>
             <Button type='submit' name='action' value='Edit' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Edit</Button>
             <Button type='button' data-modal-toggle='$IdeaID' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800'>Delete</Button>
-            </form>
+        </form>
 
         <div id='$IdeaID' tabindex='-1' class='hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full'>
             <div class='relative p-4 w-full max-w-md h-full md:h-auto'>
@@ -37,7 +37,7 @@ function mutationCheck($IdeaID, $totalIdeas)
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
         ";
 
         echo $mutationForm;

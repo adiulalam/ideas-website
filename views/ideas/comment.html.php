@@ -35,10 +35,10 @@
 
         <?php if (isset($comments)) :
             foreach ($comments as $Comment) : ?>
-                <div class="block p-3 m-1 w-96 max-w-sm rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                    <p class="text-sm dark:text-gray-200"><?php html($Comment['Comment']); ?></p>
-                    <p class="py-2 text-sm float-right dark:text-gray-400">By <?php html($Comment['Name']); ?></p>
-                    <p class="py-2 text-sm float-left dark:text-gray-400"><?php html(time_elapsed_string($Comment['Time'])); ?></p>
+                <div class="block p-2 m-1 w-96 max-w-sm rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <p class="p-2 text-sm dark:text-gray-200"><?php html($Comment['Comment']); ?></p>
+                    <p class="py-1 px-2 text-sm float-right dark:text-gray-400">By <?php html($Comment['Name']); ?></p>
+                    <p class="py-1 px-2 text-sm float-left dark:text-gray-400"><?php html(time_elapsed_string($Comment['Time'])); ?></p>
                 </div>
                 <input type='hidden' name='CommentID' value='<?php echo ($Comment['CommentID']); ?>'>
         <?php endforeach;
