@@ -1,8 +1,6 @@
 <?php
 
 // todo add admin area
-// todo add comment section
-// todo add email for comment section
 // todo add vote section
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
@@ -148,4 +146,3 @@ if (userIsLoggedIn() && $_SESSION['aid']) {
 }
 
 include "$_PATH[ideasPath]";
-
