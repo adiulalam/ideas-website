@@ -33,7 +33,7 @@ if (isset($_POST['postComment'])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
     session_start();
-    $authorID =  $_SESSION['aid'];
+    $authorID = $_SESSION['aid'];
     $comment = $_POST['comment'];
     $ideaID = $_GET['ideaID'];
 
@@ -50,7 +50,7 @@ if (isset($_POST['postComment'])) {
     }
 
     try {
-        $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID ;';
+        $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID';
         $s = $pdo->prepare($sql);
         $s->bindvalue(':Comment', $comment);
         $s->bindvalue(':IdeaID', $ideaID);
@@ -61,6 +61,9 @@ if (isset($_POST['postComment'])) {
         include "$_PATH[errorPath]";
         exit();
     }
+
+    header('Location: ' . $_SERVER['REQUEST_URI']);
+    exit();
 }
 
 $ideaID = $_GET['ideaID'];
