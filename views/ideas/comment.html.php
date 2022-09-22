@@ -14,7 +14,7 @@
 
 <body>
 
-    <section class="dark:bg-gray-900 mx-auto h-screen lg:py-0">
+    <section class="dark:bg-gray-900 mx-auto min-h-screen lg:py-0">
 
         <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
 
@@ -39,7 +39,6 @@
                     <p class="text-sm dark:text-gray-200"><?php html($Comment['Comment']); ?></p>
                     <p class="py-2 text-sm float-right dark:text-gray-400">By <?php html($Comment['Name']); ?></p>
                     <p class="py-2 text-sm float-left dark:text-gray-400"><?php html(time_elapsed_string($Comment['Time'])); ?></p>
-                    <!-- <p class="py-2 text-sm float-left dark:text-gray-400"><?php html($Comment['Time']); ?></p> -->
                 </div>
                 <input type='hidden' name='CommentID' value='<?php echo ($Comment['CommentID']); ?>'>
         <?php endforeach;
