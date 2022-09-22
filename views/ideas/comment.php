@@ -53,8 +53,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'deleteComment') {
     exit();
 }
 
-
-
 $ideaID = $_GET['ideaID'];
 $pageTitle = 'Comment';
 
@@ -144,11 +142,6 @@ if (isset($_POST['postComment'])) {
         include "$_PATH[errorPath]";
         exit();
     }
-
-    echo $emailAddress;
-
-    echo "<script type='text/javascript'>alert('$emailAddress');</script>";
-
 
     try {
         $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID';
