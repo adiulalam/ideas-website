@@ -32,7 +32,6 @@
             </div>
         </form>
 
-
         <?php if (isset($comments)) :
             foreach ($comments as $Comment) : ?>
                 <div class="block p-2 m-1 w-96 max-w-sm rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -48,6 +47,5 @@
 
 </body>
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/footer.html.php'; ?>
-
 
 </html>

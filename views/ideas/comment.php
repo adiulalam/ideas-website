@@ -14,9 +14,9 @@ function time_elapsed_string($datetime)
         12 * 30 * 24 * 60 * 60  =>  'year',
         30 * 24 * 60 * 60       =>  'month',
         24 * 60 * 60            =>  'day',
-        60 * 60             =>  'hour',
-        60                  =>  'minute',
-        1                   =>  'second'
+        60 * 60                 =>  'hour',
+        60                      =>  'minute',
+        1                       =>  'second'
     );
 
     foreach ($a as $secs => $str) {
@@ -49,24 +49,18 @@ if (isset($_POST['postComment'])) {
         exit();
     }
 
-    // try {
-    //     $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID ;';
-    //     $s = $pdo->prepare($sql);
-    //     $s->bindvalue(':Comment', $comment);
-    //     $s->bindvalue(':IdeaID', $ideaID);
-    //     $s->bindvalue(':AuthorID', $authorID);
-    //     $s->execute();
-    // } catch (PDOException $e) {
-    //     $error = 'Error inserting Comment';
-    //     include "$_PATH[errorPath]";
-    //     exit();
-    // }
-
-    // $time = '2022-09-22 00:04:52';
-    $date = new DateTime('Europe/London');
-    $result = $date->format('Y-m-d H:i:s');
-
-    echo $result;
+    try {
+        $sql = 'INSERT INTO Comment SET Comment = :Comment, IdeaID= :IdeaID, AuthorID= :AuthorID ;';
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':Comment', $comment);
+        $s->bindvalue(':IdeaID', $ideaID);
+        $s->bindvalue(':AuthorID', $authorID);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error inserting Comment';
+        include "$_PATH[errorPath]";
+        exit();
+    }
 }
 
 $ideaID = $_GET['ideaID'];
