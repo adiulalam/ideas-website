@@ -102,7 +102,7 @@ function votingCheck($IdeaID, $ideaVoteCounts, $totalIdeaVotes, $Votes)
     } else {
         $totalIdeaVotes ? $totalIdeaVotes : [];
         if (in_array($IdeaID, $totalIdeaVotes)) {
-            foreach ($ideaVoteCounts as $ideaVoteCount) :
+            foreach ($ideaVoteCounts as $ideaVoteCount) {
                 if ($ideaVoteCount['IdeaID'] == $IdeaID) {
                     if ($ideaVoteCount['VoteNumber'] == 1) {
                         echo votingSystem('disabled', '', $Votes);
@@ -117,7 +117,7 @@ function votingCheck($IdeaID, $ideaVoteCounts, $totalIdeaVotes, $Votes)
                 } else {
                     continue;
                 }
-            endforeach;
+            }
         } else {
             echo votingSystem('', '', $Votes);
         }

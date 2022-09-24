@@ -56,16 +56,16 @@ if (isset($_POST['action']) and $_POST['action'] == 'deleteComment') {
 $ideaID = $_GET['ideaID'];
 $pageTitle = 'Comment';
 
-$select = 'SELECT ID, IdeaText, IdeaDate, Image, Vote, Document, AuthorID, Author.Name, Author.Email, Author.Author_ID FROM';
-$from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
+$select = 'SELECT ID, IdeaText, IdeaDate, Image, COALESCE(SUM(Vote.VoteNumber), 0) Vote, Document, Idea.AuthorID, Author.Name, Author.Email, Author.Author_ID FROM';
+$from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID LEFT JOIN Vote ON Idea.ID = Vote.IdeaID';
 $where = ' WHERE ID = :ID';
 $limit = "LIMIT 1";
-
+$groupby = 'GROUP BY ID';
 $placeholders = array();
 $placeholders[':ID'] = $ideaID;
 
 try {
-    $sql = "$select $from $where $limit";
+    $sql = "$select $from $where $groupby $limit";
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
 } catch (PDOException $e) {
@@ -119,6 +119,22 @@ if (userIsLoggedIn() && $_SESSION['aid']) {
     }
     foreach ($s as $row) {
         $totalComments[] = $row['CommentID'];
+    }
+    try {
+        $sql = "SELECT IdeaID, AuthorID, VoteNumber 
+                FROM Vote WHERE AuthorID = $authorID
+                AND IdeaID = $ideaID";
+        $s = $pdo->prepare($sql);
+        $s->execute(array());
+    } catch (PDOException $e) {
+        $error = 'Error fetching vote counts for logged in users on comment section';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+    $totalIdeaVotes = array();
+    foreach ($s as $row) {
+        $ideaVoteCounts[] = array('IdeaID' => $row['IdeaID'], 'AuthorID' => $row['AuthorID'], 'VoteNumber' => $row['VoteNumber']);
+        $totalIdeaVotes[] = $row['IdeaID'];
     }
 }
 
