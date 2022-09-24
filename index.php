@@ -28,7 +28,6 @@ if ((isset($_POST['upvote']) and $_POST['upvote'] == 'true') ||
         $voteNum = 0;
     }
 
-    // echo $voteNum . ' ' . $ideaID . ' ' . $authorID;
     try {
         $sql = "DELETE FROM Vote WHERE IdeaID = :IdeaID AND AuthorID = :AuthorID";
         $s = $pdo->prepare($sql);
