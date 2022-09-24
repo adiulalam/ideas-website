@@ -53,6 +53,17 @@ function ideasDelete()
         exit();
     }
 
+    try {
+        $sql = "DELETE FROM Vote WHERE IdeaID= :ID";
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':ID', $ideasID);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error deleting vote from idea';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
     header('Location: .');
     exit();
 }
