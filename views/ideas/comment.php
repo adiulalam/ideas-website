@@ -148,8 +148,7 @@ if (isset($_POST['postComment'])) {
     $ideaID = $_GET['ideaID'];
 
     if (!userIsLoggedIn() || !$authorID || !$ideaID) {
-        $error = 'Error: You need to login to comment';
-        include "$_PATH[errorPath]";
+        header('Location: ' . '/views/auth/login/login.html.php');
         exit();
     }
 
