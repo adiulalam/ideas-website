@@ -70,18 +70,18 @@ function commentCheck($IdeaID, $currentURL)
 
 function votingSystem($upvote, $downvote, $NumVotes)
 {
-    $upvote == 'disabled' ? 'disabled' : '';
-    $downvote == 'disabled' ? 'disabled' : '';
+    $upvote == "disabled" ? "disabled" : "";
+    $downvote == "disabled" ? "disabled" : "";
 
     $voteHTML = "
     <div>
-        <button type='submit' value='true' name='downvote' class='inline-flex mr-1 float-right items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800' $downvote>
+        <button type='submit' value='true' name='downvote' class='inline-flex mr-1 float-right items-center p-1 text-sm font-medium text-center text-white rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:hover:bg-red-700 dark:focus:ring-red-800 dark:bg-gray-600 disabled:bg-red-600' $downvote>
             <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' preserveAspectRatio='xMidYMid meet' viewBox='0 0 24 24'>
                 <path fill='currentColor' d='M20.901 10.566A1.001 1.001 0 0 0 20 10h-4V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v7H4a1.001 1.001 0 0 0-.781 1.625l8 10a1 1 0 0 0 1.562 0l8-10c.24-.301.286-.712.12-1.059zM12 19.399L6.081 12H10V4h4v8h3.919L12 19.399z' />
             </svg>
         </button>
-        <p class='inline-flex mr-1 float-right items-center py-2 px-3 text-sm font-medium text-center text-white'>$NumVotes</p>
-        <button type='submit' value='true' name='upvote' class='inline-flex mr-1 float-right items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' $upvote>
+        <p class='inline-flex mr-1 float-right items-center p-1 mb-2 text-sm font-medium text-center text-white'>$NumVotes</p>
+        <button type='submit' value='true' name='upvote' class='inline-flex mr-1 float-right items-center p-1 text-sm font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:bg-gray-600 disabled:bg-blue-600' $upvote>
             <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' preserveAspectRatio='xMidYMid meet' viewBox='0 0 24 24'>
                 <path fill='currentColor' d='M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601L17.919 12H15z' />
             </svg>
@@ -147,9 +147,7 @@ function votingCheck($IdeaID, $ideaVoteCounts, $totalIdeaVotes, $Votes)
                         <input type='hidden' name='ideaID' value='<?php echo ($Idea['ID']); ?>'>
                 </form>
                 <?php mutationCheck($Idea['ID'], $totalIdeas) ?>
-                <div>
-                    <?php votingCheck($Idea['ID'], $ideaVoteCounts, $totalIdeaVotes, $Idea['Vote']) ?>
-                </div>
+                <?php votingCheck($Idea['ID'], $ideaVoteCounts, $totalIdeaVotes, $Idea['Vote']) ?>
             </div>
         </div>
 <?php endforeach;
