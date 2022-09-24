@@ -59,12 +59,13 @@ foreach ($result as $row) {
     $categories[] = array('ID' => $row['ID'], 'Name' => $row['Name']);
 }
 
-$select = 'SELECT ID, IdeaText, IdeaDate, Image, Vote, Document, AuthorID, Author.Name, Author.Author_ID FROM';
+$select = 'SELECT ID, IdeaText, IdeaDate, Image, COALESCE(SUM(Vote.VoteNumber), 0) Vote, Document, Idea.AuthorID, Author.Name, Author.Author_ID FROM';
 $selectCount = 'SELECT COUNT(Idea.ID) as id FROM';
-$from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID';
+$from = ' Idea INNER JOIN Author ON Idea.AuthorID = Author.Author_ID LEFT JOIN Vote ON Idea.ID = Vote.IdeaID';
 $where = ' WHERE TRUE';
 $placeholders = array();
-$orderby = isset($_GET["orderBy"]) ? "ORDER BY $_GET[orderBy]" : "ORDER BY IdeaDate DESC";
+$orderby = isset($_GET["orderBy"]) ? "ORDER BY $_GET[orderBy]" : " ORDER BY IdeaDate DESC";
+$groupby = 'GROUP BY ID';
 
 $offset = isset($_GET["limitRecords"]) ? $_GET["limitRecords"] : 10;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -113,8 +114,9 @@ $pages = ceil($total / $offset);
 $previous = ($page == 1 || $page < 1) ? 1 : $page - 1;
 $next = ($page == $pages || $page > $pages) ? $pages : $page + 1;
 
+
 try {
-    $sql = "$select $from $where $orderby $limit";
+    $sql = "$select $from $where $groupby $orderby $limit";
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
 } catch (PDOException $e) {
@@ -122,10 +124,13 @@ try {
     include "$_PATH[errorPath]";
     exit();
 }
+$ideasIDs = array();
 foreach ($s as $row) {
     $ideas[] = array('ID' => $row['ID'], 'text' => $row['IdeaText'], 'Image' => $row['Image'], 'IdeaDate' => $row['IdeaDate'], 'Name' => $row['Name'], 'Vote' => $row['Vote']);
-    $Vote = $row['Vote'];
+    $ideasIDs[] = $row['ID'];
 }
+$ideasIDsString = implode(', ', $ideasIDs);
+// print_r($ideasIDsString);
 // todo Add this sql query for Vote
 //SELECT ID, COALESCE(SUM(Vote.VoteNumber), 0) Vote FROM Idea LEFT JOIN Vote ON Idea.ID = Vote.IdeaID GROUP BY ID;
 
@@ -133,7 +138,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 if (userIsLoggedIn() && $_SESSION['aid']) {
     $authorID =  $_SESSION['aid'];
     try {
-        $subquery = "$select $from $where $orderby $limit";
+        $subquery = "$select $from $where $groupby $orderby $limit";
         $sql = "SELECT ID FROM ($subquery) AS subquery WHERE AuthorID = $authorID";
         $s = $pdo->prepare($sql);
         $s->execute($placeholders);
@@ -145,6 +150,26 @@ if (userIsLoggedIn() && $_SESSION['aid']) {
     foreach ($s as $row) {
         $totalIdeas[] = $row['ID'];
     }
+
+    try {
+        $sql = "SELECT IdeaID, AuthorID, VoteNumber 
+                FROM Vote WHERE AuthorID = $authorID
+                AND IdeaID IN ($ideasIDsString)";
+        $s = $pdo->prepare($sql);
+        $s->execute($placeholders);
+    } catch (PDOException $e) {
+        $error = 'Error fetching vote counts for logged in users';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+    $totalIdeaVotes = array();
+    foreach ($s as $row) {
+        $ideaVoteCounts[] = array('IdeaID' => $row['IdeaID'], 'AuthorID' => $row['AuthorID'], 'VoteNumber' => $row['VoteNumber']);
+        $totalIdeaVotes[] = $row['IdeaID'];
+    }
+    // echo $sql;
 }
+
+// print_r($totalIdeaVotes);
 
 include "$_PATH[ideasPath]";
