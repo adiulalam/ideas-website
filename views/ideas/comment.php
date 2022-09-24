@@ -53,6 +53,13 @@ if (isset($_POST['action']) and $_POST['action'] == 'deleteComment') {
     exit();
 }
 
+if ((isset($_POST['upvote']) and $_POST['upvote'] == 'true') ||
+    (isset($_POST['downvote']) and $_POST['downvote'] == 'true')
+) {
+    include "$_PATH[voteIdeasPath]";
+    ideasVote();
+}
+
 $ideaID = $_GET['ideaID'];
 $pageTitle = 'Comment';
 

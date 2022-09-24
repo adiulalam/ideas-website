@@ -12,6 +12,7 @@ $_PATH["addIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/add.php";
 $_PATH["editIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/edit.php";
 $_PATH["deleteIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/delete.php";
 $_PATH["commentIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/comment.php";
+$_PATH["voteIdeasPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/vote.php";
 
 $_PATH["alertPath"] = $_SERVER['DOCUMENT_ROOT'] . '/components/alert.html.php';
 
