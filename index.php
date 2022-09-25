@@ -85,18 +85,18 @@ $limit = "LIMIT $start, $offset";
 if (isset($_GET['action']) and $_GET['action'] == 'search') {
 
     if (isset($_GET["Author"]) && $_GET['Author'] != '') {
-        $where .= " AND AuthorID = :AuthorID";
+        $where .= " AND Idea.AuthorID = :AuthorID";
         $placeholders[':AuthorID'] = $_GET['Author'];
     }
 
     if (isset($_GET["Category"]) && $_GET['Category'] != '') {
-        $from .= ' INNER JOIN IdeaCategory ON ID= IdeaID';
+        $from .= ' INNER JOIN IdeaCategory ON ID= IdeaCategory.IdeaID';
         $where .= " AND CategoryID = :CategoryID";
         $placeholders[':CategoryID'] = $_GET['Category'];
     }
 
     if (isset($_GET["text"]) && $_GET['text'] != '') {
-        $where .= " AND LOWER(IdeaText) LIKE LOWER(:IdeaText)";
+        $where .= " AND LOWER(Idea.IdeaText) LIKE LOWER(:IdeaText)";
         $placeholders[':IdeaText'] = "%" . $_GET['text'] . "%";
     }
 }
@@ -106,7 +106,8 @@ try {
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
 } catch (PDOException $e) {
-    $error = 'Error fetching ideas count';
+    $error = "$selectCount $from $where $orderby";
+    // $error = 'Error fetching ideas count';
     include "$_PATH[errorPath]";
     exit();
 }
@@ -137,6 +138,10 @@ foreach ($s as $row) {
 }
 $ideasIDsString = implode(', ', $ideasIDs);
 
+if (!$ideasIDsString) {
+    $ideasIDsString = 'null';
+}
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 if (userIsLoggedIn() && $_SESSION['aid']) {
     $authorID =  $_SESSION['aid'];
@@ -159,7 +164,7 @@ if (userIsLoggedIn() && $_SESSION['aid']) {
                 FROM Vote WHERE AuthorID = $authorID
                 AND IdeaID IN ($ideasIDsString)";
         $s = $pdo->prepare($sql);
-        $s->execute($placeholders);
+        $s->execute(array());
     } catch (PDOException $e) {
         $error = 'Error fetching vote counts for logged in users';
         include "$_PATH[errorPath]";
