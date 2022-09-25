@@ -52,7 +52,7 @@ $navBar = "
                     <a href='#' " . currentDir('#') . " >About Me</a>
                 </li>
                 <li>
-                    <a href='#' " . currentDir('#') . " >Contact Me</a> 
+                    <a href='/views/contact/' " . currentDir('/views/contact/') . " >Contact Me</a> 
                 </li>
             </ul>
         </div>
