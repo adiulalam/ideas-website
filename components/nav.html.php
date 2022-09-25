@@ -44,15 +44,15 @@ $navBar = "
             $navBarButton
         </div>
         <div class='hidden justify-between items-center w-full md:flex md:w-auto md:order-1' id='navbar-cta'>
-            <ul class='flex flex-col p-2 mt-4 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0'>
+            <ul class='flex flex-col p-2 mt-4 rounded-lg md:flex-row md:mt-0 md:text-sm md:font-medium md:border-0'>
                 <li>
                     <a href='/' " . currentDir('/') . " >Home</a>
                 </li>
                 <li>
-                    <a href='#' " . currentDir('#') . " >About Me</a>
+                    <a href='/views/contact/' " . currentDir('/views/contact/') . " >Contact Me</a> 
                 </li>
                 <li>
-                    <a href='/views/contact/' " . currentDir('/views/contact/') . " >Contact Me</a> 
+                    <a href='https://adiulalamadil.me/' class='block text-gray-300 mr-2 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>About Me</a>
                 </li>
             </ul>
         </div>
