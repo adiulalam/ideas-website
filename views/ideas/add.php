@@ -170,7 +170,6 @@ function ideasAddSubmit()
         }
     }
 
-    // header('Location: /');
     echo "<script> location.href='/'; </script>";
     exit();
 }

@@ -203,7 +203,7 @@ function ideasEditSubmit()
         include "$_PATH[errorPath]";
         exit();
     }
-    // Category
+
     try {
         $sql = 'DELETE FROM IdeaCategory WHERE IdeaID=:ID';
         $s = $pdo->prepare($sql);
@@ -232,7 +232,6 @@ function ideasEditSubmit()
         }
     }
 
-    // Department
     try {
         $sql = 'DELETE FROM IdeaDepartment WHERE IdeaID=:ID';
         $s = $pdo->prepare($sql);

@@ -1,7 +1,7 @@
 <?php
 
 // todo add admin area
-// todo add vote section
+// todo add forgot password page
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 
@@ -106,8 +106,7 @@ try {
     $s = $pdo->prepare($sql);
     $s->execute($placeholders);
 } catch (PDOException $e) {
-    $error = "$selectCount $from $where $orderby";
-    // $error = 'Error fetching ideas count';
+    $error = 'Error fetching ideas count';
     include "$_PATH[errorPath]";
     exit();
 }
