@@ -44,6 +44,7 @@ function userIsLoggedIn()
             unset($_SESSION['loggedIn']);
             unset($_SESSION['Email']);
             unset($_SESSION['Password']);
+            unset($_SESSION['authorRole']);
             $error = 'The specified email address or password was incorrect.';
             generateAlert($error);
             return FALSE;
@@ -54,6 +55,7 @@ function userIsLoggedIn()
         unset($_SESSION['loggedIn']);
         unset($_SESSION['Email']);
         unset($_SESSION['Password']);
+        unset($_SESSION['authorRole']);
         header('Location: ' . '/');
         exit();
     }
@@ -129,4 +131,20 @@ function customer()
     }
     $row = $s->fetch();
     $_SESSION['aid'] = $row['Author_ID'];
+
+    try {
+        $sql = "SELECT RoleID FROM AuthorRole WHERE AuthorID = :AuthorID";
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':AuthorID', $_SESSION['aid']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error selecting author role';
+        generateAlert($error);
+        exit();
+    }
+    $totalAuthorRoles = array();
+    foreach ($s as $row) {
+        $totalAuthorRoles[] = $row['RoleID'];
+    }
+    $_SESSION['authorRole'] = $totalAuthorRoles;
 }
