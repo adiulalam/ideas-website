@@ -90,6 +90,7 @@ function databaseContainsAuthor($Email, $Password)
 }
 function userHasRole($Role)
 {
+    include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
     include "$_PATH[databasePath]";
     try {
         $sql = "SELECT COUNT(*) FROM Author

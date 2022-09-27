@@ -9,7 +9,10 @@ function mutationCheck($IdeaID, $totalIdeas)
         return false;
     }
 
-    if (in_array($IdeaID, $totalIdeas)) {
+    if ((in_array($IdeaID, $totalIdeas)) ||
+        ((in_array("Content Editor", $_SESSION['authorRole']) ? userHasRole('Content Editor') : false) ||
+            (in_array("Site Administrator", $_SESSION['authorRole']) ? userHasRole('Site Administrator') : false))
+    ) {
         $mutationForm = "
         <form action='?' method='post' class=' float-right inline-flex items-center '>
             <input type='hidden' name='ID' value='$IdeaID'>
