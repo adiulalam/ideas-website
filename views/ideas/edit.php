@@ -4,14 +4,17 @@ function ideasEditForm()
 {
     include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
     include "$_PATH[databasePath]";
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+    session_start();
 
     try {
-        session_start();
-        $authorID =  $_SESSION['aid'];
-        $sql = "SELECT ID, IdeaText, Image, AuthorID FROM Idea WHERE ID= :ID AND AuthorID = :AuthorID";
+        $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
+            (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+            ? ''
+            : "AND AuthorID = $_SESSION[aid]";
+        $sql = "SELECT ID, IdeaText, Image, AuthorID FROM Idea WHERE ID= :ID $authorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $_POST['ID']);
-        $s->bindvalue(':AuthorID', $authorID);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error fetching idea details';
@@ -122,21 +125,23 @@ function ideasEditSubmit()
         exit();
     }
 
-
     function updateImage($Image, $IdeaID)
     {
         include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
         include "$_PATH[databasePath]";
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+        session_start();
         try {
-            session_start();
-            $authorID = $_SESSION['aid'];
-            $sql = 'UPDATE Idea SET
+            $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
+                (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+                ? ''
+                : "AND AuthorID = $_SESSION[aid]";
+            $sql = "UPDATE Idea SET
             Image= :Image
-            WHERE ID= :ID AND AuthorID= :Author_Session_ID';
+            WHERE ID= :ID $authorID";
             $s = $pdo->prepare($sql);
             $s->bindvalue(':ID', $IdeaID);
             $s->bindvalue(':Image', $Image);
-            $s->bindvalue(':Author_Session_ID', $authorID);
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Error updating submitted idea Image';
@@ -146,7 +151,6 @@ function ideasEditSubmit()
     }
 
     $filename = $_FILES['myfile']['name'];
-
 
     if ($_POST['Image'] && $filename) {
         $error = 'Error: Image was both uploaded and given a link';
@@ -186,17 +190,18 @@ function ideasEditSubmit()
     }
 
     try {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
         session_start();
-        $authorID = $_SESSION['aid'];
-        $sql = 'UPDATE Idea SET
-        IdeaText=:IdeaText,
-        AuthorID=:AuthorID
-        WHERE ID=:ID AND AuthorID=:Author_Session_ID';
+        $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
+            (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+            ? ''
+            : "AND AuthorID = $_SESSION[aid]";
+        $sql = "UPDATE Idea SET
+        IdeaText=:IdeaText
+        WHERE ID=:ID $authorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $_POST['ID']);
         $s->bindvalue(':IdeaText', $text);
-        $s->bindvalue(':AuthorID', $Author);
-        $s->bindvalue(':Author_Session_ID', $authorID);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error updating submitted idea';
@@ -214,6 +219,7 @@ function ideasEditSubmit()
         include "$_PATH[errorPath]";
         exit();
     }
+
     if (isset($_POST['categories'])) {
         try {
             $sql = 'INSERT INTO IdeaCategory SET 

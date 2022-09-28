@@ -7,12 +7,15 @@ function ideasDelete()
     $ideasID = $_POST['ID'];
 
     try {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
         session_start();
-        $authorID =  $_SESSION['aid'];
-        $sql = "DELETE FROM Idea WHERE ID = :ID AND AuthorID = :AuthorID";
+        $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
+            (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+            ? ''
+            : "AND AuthorID = $_SESSION[aid]";
+        $sql = "DELETE FROM Idea WHERE ID = :ID $authorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $ideasID);
-        $s->bindvalue(':AuthorID', $authorID);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error deleting idea from idea';
