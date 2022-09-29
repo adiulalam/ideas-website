@@ -16,6 +16,62 @@ function currentDir($dir)
     }
 }
 
+function roleCheck()
+{
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+    if (!userIsLoggedIn() || !(in_array("Site Administrator", $_SESSION['authorRole'])
+        || in_array("Account Administrator", $_SESSION['authorRole'])
+        || in_array("Category Moderator", $_SESSION['authorRole']))) {
+        // print_r($_SESSION['authorRole']);
+        return false;
+    } elseif (
+        in_array("Site Administrator", $_SESSION['authorRole']) ||
+        (in_array("Account Administrator", $_SESSION['authorRole']) &&
+            in_array("Category Moderator", $_SESSION['authorRole']))
+    ) {
+        if (userHasRole("Site Administrator") || (userHasRole("Account Administrator") && userHasRole("Category Moderator"))) {
+            // print_r($_SESSION['authorRole']);
+            $roleContent = "                
+            <li>
+                <a href='/views/admin/author/' " . currentDir("/views/admin/author/") . " >Account Administrator</a>
+            </li>
+            <li>
+                <a href='/views/admin/category/' " . currentDir("/views/admin/category/") . " >Category Moderator</a>
+            </li>
+            ";
+            return $roleContent;
+        } else {
+            return false;
+        }
+    } elseif (in_array("Account Administrator", $_SESSION['authorRole'])) {
+
+        if (userHasRole("Account Administrator")) {
+            // print_r($_SESSION['authorRole']);
+            $roleContent = "                
+            <li>
+                <a href='/views/admin/author/' " . currentDir("/views/admin/author/") . " >Account Administrator</a>
+            </li>";
+            return $roleContent;
+        } else {
+            return false;
+        }
+    } elseif (in_array("Category Moderator", $_SESSION['authorRole'])) {
+
+        if (userHasRole("Category Moderator")) {
+            // print_r($_SESSION['authorRole']);
+            $roleContent = "                
+            <li>
+                <a href='/views/admin/category/' " . currentDir("/views/admin/category/") . " >Category Moderator</a>
+            </li>";
+            return $roleContent;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
 $navBarAuth = "
 <a href='?Author=$_SESSION[aid]&Category=&action=search&text=' " . currentDir("/?Author=$_SESSION[aid]&Category=&action=search&text=") . " >See My Ideas</a>
 <form action='' method='post'> 
@@ -31,7 +87,8 @@ $navBarNotAuth = "
 
 $navBarButton = userIsLoggedIn() ? $navBarAuth : $navBarNotAuth;
 
-$navBar = "
+?>
+
 <nav class='bg-white border-gray-700 px-2 sm:px-4 py-1.5 dark:bg-gray-800'>
     <div class='container flex flex-wrap justify-between items-center mx-auto'>
         <div class='flex md:order-2'>
@@ -41,24 +98,21 @@ $navBar = "
                     <path fill-rule='evenodd' d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z' clip-rule='evenodd'></path>
                 </svg>
             </button>
-            $navBarButton
+            <?php echo $navBarButton ?>
         </div>
         <div class='hidden justify-between items-center w-full md:flex md:w-auto md:order-1' id='navbar-cta'>
             <ul class='flex flex-col p-2 mt-4 rounded-lg md:flex-row md:mt-0 md:text-sm md:font-medium md:border-0'>
                 <li>
-                    <a href='/' " . currentDir('/') . " >Home</a>
+                    <a href='/' <?php echo currentDir('/') ?>>Home</a>
                 </li>
                 <li>
-                    <a href='/views/contact/' " . currentDir('/views/contact/') . " >Contact Me</a> 
+                    <a href='/views/contact/' <?php echo currentDir('/views/contact/') ?>>Contact Me</a>
                 </li>
                 <li>
                     <a href='https://adiulalamadil.me/' class='block text-gray-300 mr-2 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>About Me</a>
                 </li>
+                <?php echo roleCheck() ?>
             </ul>
         </div>
-        
     </div>
 </nav>
-";
-
-echo $navBar;
