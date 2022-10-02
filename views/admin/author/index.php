@@ -1,5 +1,4 @@
 <?php
-
 include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
@@ -14,4 +13,18 @@ if (!(userHasRole("Site Administrator") || (userHasRole("Account Administrator")
     exit();
 }
 
-echo 'hello';
+include "$_PATH[databasePath]";
+
+try {
+    $result = $pdo->query('SELECT Author_ID, Name, Email, Author_Image, LoginTime From Author');
+} catch (PDOException $e) {
+    $error = 'Error fetching authors from the database';
+    include "$_PATH[errorPath]";
+    exit();
+}
+
+foreach ($result as $row) {
+    $authors[] = array('ID' => $row['Author_ID'], 'Name' => $row['Name'], 'Email' => $row['Email'], 'Image' => $row['Author_Image'], 'LoginTime' => $row['LoginTime']);
+}
+
+include 'authors.html.php';
