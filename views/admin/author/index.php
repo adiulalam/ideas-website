@@ -16,7 +16,7 @@ if (!(userHasRole("Site Administrator") || (userHasRole("Account Administrator")
 include "$_PATH[databasePath]";
 
 try {
-    $result = $pdo->query('SELECT Author_ID, Name, Email, Author_Image, LoginTime From Author');
+    $result = $pdo->query("SELECT Author_ID, Name, Email, Author_Image, LoginTime From Author");
 } catch (PDOException $e) {
     $error = 'Error fetching authors from the database';
     include "$_PATH[errorPath]";

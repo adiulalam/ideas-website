@@ -67,8 +67,7 @@
       <?php endforeach;
     endif; ?>
 
-      <!-- <?php // include_once $_SERVER['DOCUMENT_ROOT'] . '/components/addAuthor.html.php'; 
-            ?> -->
+      <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/addContent.html.php'; ?>
 
   </section>
 

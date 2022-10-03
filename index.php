@@ -37,7 +37,7 @@ if (isset($_GET['addform'])) {
     ideasAddSubmit();
 }
 
-if (isset($_GET['action']) and $_GET['action'] == 'addIdea') {
+if (isset($_GET['action']) and $_GET['action'] == 'addContent') {
     include "$_PATH[addIdeasPath]";
     ideasAddForm();
 }
