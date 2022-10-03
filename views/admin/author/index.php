@@ -15,6 +15,32 @@ if (!(userHasRole("Site Administrator") || (userHasRole("Account Administrator")
 
 include "$_PATH[databasePath]";
 
+if (isset($_GET['action']) and $_GET['action'] == 'addContent') {
+    // include "$_PATH[addIdeasPath]";
+    // ideasAddForm();
+
+    $pageTitle = 'New Author';
+    $action = 'addform';
+    $Name = '';
+    $Email = '';
+    $ID = '';
+    $button = 'Add Author';
+
+    try {
+        $result = $pdo->query('SELECT ID, Description FROM Role');
+    } catch (PDOException $e) {
+        $error = 'Error fetching list of Roles.';
+        include 'error.html.php';
+        exit();
+    }
+    foreach ($result as $row) {
+        $Roles[] = array('ID' => $row['ID'], 'Description' => $row['Description'], 'selected' => FALSE);
+    }
+
+    include 'form.html.php';
+    exit();
+}
+
 try {
     $result = $pdo->query("SELECT Author_ID, Name, Email, Author_Image, LoginTime From Author");
 } catch (PDOException $e) {
