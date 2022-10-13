@@ -15,6 +15,62 @@ if (!(userHasRole("Site Administrator") || (userHasRole("Account Administrator")
 
 include "$_PATH[databasePath]";
 
+if (isset($_GET['addform'])) {
+
+    try {
+        $sql = 'INSERT INTO Author SET Name = :Name, Email = :Email';
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':Name', $_POST['Name']);
+        $s->bindvalue(':Email', $_POST['Email']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error adding submitted Author.';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    $AuthorID = $pdo->lastInsertId();
+
+    if ($_POST['Password'] != '') {
+        $Password = md5($_POST['Password'] . 'ijdb');
+
+        try {
+            $sql = 'UPDATE Author SET
+				Password = :Password
+				WHERE Author_ID = :ID';
+            $s = $pdo->prepare($sql);
+            $s->bindvalue(':Password', $Password);
+            $s->bindvalue(':ID', $AuthorID);
+            $s->execute();
+        } catch (PDOException $e) {
+            $error = 'Error setting Author Password.';
+            include "$_PATH[errorPath]";
+            exit();
+        }
+    }
+
+    if (isset($_POST['Roles'])) {
+        foreach ($_POST['Roles'] as $Role) {
+            try {
+                $sql = 'INSERT INTO AuthorRole SET
+				AuthorID = :AuthorID,
+				RoleID = :RoleID';
+                $s = $pdo->prepare($sql);
+                $s->bindValue(':AuthorID', $AuthorID);
+                $s->bindValue(':RoleID', $Role);
+                $s->execute();
+            } catch (PDOException $e) {
+                $error = 'Error assigning selected Role to Author.';
+                include "$_PATH[errorPath]";
+                exit();
+            }
+        }
+    }
+
+    header('Location: /views/admin/author/');
+    exit();
+}
+
 if (isset($_GET['action']) and $_GET['action'] == 'addContent') {
     // include "$_PATH[addIdeasPath]";
     // ideasAddForm();
@@ -30,7 +86,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'addContent') {
         $result = $pdo->query('SELECT ID, Description FROM Role');
     } catch (PDOException $e) {
         $error = 'Error fetching list of Roles.';
-        include 'error.html.php';
+        include "$_PATH[errorPath]";
         exit();
     }
     foreach ($result as $row) {
