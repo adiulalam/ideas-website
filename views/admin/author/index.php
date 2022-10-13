@@ -40,6 +40,40 @@ if (isset($_POST['action']) and $_POST['action'] == 'Delete') {
         include "$_PATH[errorPath]";
         exit();
     }
+
+    try {
+        $sql = "DELETE FROM Idea WHERE AuthorID = :ID";
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':ID', $AuthorID);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error deleting ideas of author';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    try {
+        $sql = "DELETE FROM Comment WHERE AuthorID = :ID";
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':ID', $AuthorID);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error deleting comment of author';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
+    try {
+        $sql = "DELETE FROM Vote WHERE AuthorID= :ID";
+        $s = $pdo->prepare($sql);
+        $s->bindvalue(':ID', $AuthorID);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Error deleting vote of author';
+        include "$_PATH[errorPath]";
+        exit();
+    }
+
     header('Location: .');
     exit();
 }
