@@ -36,12 +36,12 @@ if (!userIsLoggedIn()) {
 
                         <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input value="<?php html($Name) ?>" type="name" name="Name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Joe Davis">
+                            <input value="<?php html($Name) ?>" type="name" name="Name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Joe Davis" required>
                         </div>
 
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input value="<?php html($Email); ?>" type="email" name="Email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="joedavis@domain.com">
+                            <input value="<?php html($Email); ?>" type="email" name="Email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="joedavis@domain.com" required>
                         </div>
 
                         <div>
@@ -60,7 +60,7 @@ if (!userIsLoggedIn()) {
                                 <li class="w-full rounded-t-lg ">
                                     <?php for ($i = 0; $i < count($Roles); $i++) : ?>
                                         <div class="flex items-center pl-3">
-                                            <input type="checkbox" name="Roles[]" value="<?php html($Category['ID']); ?>" <?php if ($Roles[$i]['selected']) echo ' checked' ?> class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                            <input type="checkbox" name="Roles[]" value="<?php html($Roles[$i]['ID']); ?>" <?php if ($Roles[$i]['selected']) echo ' checked' ?> class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                             <label for="Role<?php html($i); ?>" class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300"><?php html($Roles[$i]['ID'] . ': ' . $Roles[$i]['Description']); ?></label>
                                         </div>
                                     <?php endfor; ?>

@@ -22,7 +22,6 @@ function ideasAddForm()
         $authors[] = array('ID' => $row['Author_ID'], 'Name' => $row['Name']);
     }
 
-    //build list of departments    
     try {
         $result = $pdo->query('SELECT ID, Name FROM Department');
     } catch (PDOException $e) {
@@ -34,8 +33,6 @@ function ideasAddForm()
         $departments[] = array('ID' => $row['ID'], 'Name' => $row['Name'], 'selected' => FALSE);
     }
 
-
-    //build list of categories    
     try {
         $result = $pdo->query('SELECT ID, Name FROM Category');
     } catch (PDOException $e) {
@@ -126,10 +123,6 @@ function ideasAddSubmit()
 
     $IdeaID = $pdo->lastInsertId();
 
-
-    /*****************************************************/
-    //Insert record into ideacategory table --category
-
     if (isset($_POST['categories'])) {
         try {
             $sql = 'INSERT INTO IdeaCategory SET
@@ -147,9 +140,6 @@ function ideasAddSubmit()
             exit();
         }
     }
-
-    /*****************************************************/
-    //Insert record into ideadepartment table --department
 
     if (isset($_POST['departments'])) {
         try {
