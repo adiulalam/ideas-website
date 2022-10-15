@@ -8,7 +8,7 @@ if (!userIsLoggedIn()) {
     exit();
 }
 
-if (!(userHasRole("Site Administrator") || (userHasRole("Account Administrator")))) {
+if (!(userHasRole("Site Administrator") || (userHasRole("Category Moderator")))) {
     header('Location: /');
     exit();
 }
