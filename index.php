@@ -1,6 +1,4 @@
 <?php
-
-// todo add admin area
 // todo add forgot password page
 // todo only allow hyperlink for add or edit ideas
 
