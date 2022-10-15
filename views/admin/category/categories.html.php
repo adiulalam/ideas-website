@@ -7,7 +7,7 @@
   <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
   <meta charset="utf-8">
-  <title>Manage Categorys</title>
+  <title>Manage Categories</title>
 </head>
 
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
