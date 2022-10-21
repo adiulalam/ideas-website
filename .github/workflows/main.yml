@@ -1,0 +1,20 @@
+name: Ideas Website Deployment
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DOCKER_HOST }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+        script: |
+          cd ideas-website-content/
+          ./deploy-ideas-website.sh
