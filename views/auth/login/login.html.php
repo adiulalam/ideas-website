@@ -1,4 +1,11 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/connection/helpers.inc.php'; ?>
+<?php
+include_once $_SERVER['DOCUMENT_ROOT'] . '/connection/helpers.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
+if (userIsLoggedIn()) {
+    header('Location: ' . '/');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -16,8 +16,10 @@ function currentDir($dir)
     }
 }
 
-function roleCheck()
+function roleCheck($dir)
 {
+    if ($dir == "/views/auth/login/login.html.php") return false;
+
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
     if (!userIsLoggedIn() || !(in_array("Site Administrator", $_SESSION['authorRole'])
         || in_array("Account Administrator", $_SESSION['authorRole'])
@@ -111,7 +113,7 @@ $navBarButton = userIsLoggedIn() ? $navBarAuth : $navBarNotAuth;
                 <li>
                     <a href='https://adiulalamadil.me/' class='block text-gray-300 mr-2 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>About Me</a>
                 </li>
-                <?php echo roleCheck() ?>
+                <?php echo roleCheck($_SERVER['REQUEST_URI']) ?>
             </ul>
         </div>
     </div>

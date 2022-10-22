@@ -37,7 +37,6 @@ function userIsLoggedIn()
             $_SESSION['Email'] = $Email;
             $_SESSION['Password'] = $Password;
             customer();
-            header('Location: ' . '/');
             return TRUE;
         } else {
             session_start();
