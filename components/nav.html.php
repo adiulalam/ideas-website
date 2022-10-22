@@ -19,18 +19,18 @@ function currentDir($dir)
 function roleCheck()
 {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-    if (!userIsLoggedIn() || !(in_array("Site Administrator", $_SESSION['authorRole'])
-        || in_array("Account Administrator", $_SESSION['authorRole'])
-        || in_array("Category Moderator", $_SESSION['authorRole']))) {
-        // print_r($_SESSION['authorRole']);
+    if (!userIsLoggedIn() || !(in_array("Site Administrator", json_decode($_COOKIE['authorRole']))
+        || in_array("Account Administrator", json_decode($_COOKIE['authorRole']))
+        || in_array("Category Moderator", json_decode($_COOKIE['authorRole'])))) {
+        // print_r(json_decode($_COOKIE['authorRole']));
         return false;
     } elseif (
-        in_array("Site Administrator", $_SESSION['authorRole']) ||
-        (in_array("Account Administrator", $_SESSION['authorRole']) &&
-            in_array("Category Moderator", $_SESSION['authorRole']))
+        in_array("Site Administrator", json_decode($_COOKIE['authorRole'])) ||
+        (in_array("Account Administrator", json_decode($_COOKIE['authorRole'])) &&
+            in_array("Category Moderator", json_decode($_COOKIE['authorRole'])))
     ) {
         if (userHasRole("Site Administrator") || (userHasRole("Account Administrator") && userHasRole("Category Moderator"))) {
-            // print_r($_SESSION['authorRole']);
+            // print_r(json_decode($_COOKIE['authorRole']));
             $roleContent = "                
             <li>
                 <a href='/views/admin/author/' " . currentDir("/views/admin/author/") . " >Account Administrator</a>
@@ -43,10 +43,10 @@ function roleCheck()
         } else {
             return false;
         }
-    } elseif (in_array("Account Administrator", $_SESSION['authorRole'])) {
+    } elseif (in_array("Account Administrator", json_decode($_COOKIE['authorRole']))) {
 
         if (userHasRole("Account Administrator")) {
-            // print_r($_SESSION['authorRole']);
+            // print_r(json_decode($_COOKIE['authorRole']));
             $roleContent = "                
             <li>
                 <a href='/views/admin/author/' " . currentDir("/views/admin/author/") . " >Account Administrator</a>
@@ -55,10 +55,10 @@ function roleCheck()
         } else {
             return false;
         }
-    } elseif (in_array("Category Moderator", $_SESSION['authorRole'])) {
+    } elseif (in_array("Category Moderator", json_decode($_COOKIE['authorRole']))) {
 
         if (userHasRole("Category Moderator")) {
-            // print_r($_SESSION['authorRole']);
+            // print_r(json_decode($_COOKIE['authorRole']));
             $roleContent = "                
             <li>
                 <a href='/views/admin/category/' " . currentDir("/views/admin/category/") . " >Category Moderator</a>
@@ -73,7 +73,7 @@ function roleCheck()
 }
 
 $navBarAuth = "
-<a href='?Author=$_SESSION[aid]&Category=&action=search&text=' " . currentDir("/?Author=$_SESSION[aid]&Category=&action=search&text=") . " >See My Ideas</a>
+<a href='?Author=$_COOKIE[aid]&Category=&action=search&text=' " . currentDir("/?Author=$_COOKIE[aid]&Category=&action=search&text=") . " >See My Ideas</a>
 <form action='' method='post'> 
     <button type='submit' href='/' class='block text-gray-300 mr-2 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
     <input type='hidden' name='action' value='logout'>

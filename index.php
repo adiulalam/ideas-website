@@ -141,8 +141,8 @@ if (!$ideasIDsString) {
 }
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-if (userIsLoggedIn() && $_SESSION['aid']) {
-    $authorID =  $_SESSION['aid'];
+if (userIsLoggedIn() && $_COOKIE['aid']) {
+    $authorID =  $_COOKIE['aid'];
     try {
         $subquery = "$select $from $where $groupby $orderby $limit";
         $sql = "SELECT ID FROM ($subquery) AS subquery WHERE AuthorID = $authorID";

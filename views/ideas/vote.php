@@ -5,13 +5,13 @@ function ideasVote()
     include "$_PATH[databasePath]";
 
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-    if (!userIsLoggedIn() || !$_SESSION['aid']) {
+    if (!userIsLoggedIn() || !$_COOKIE['aid']) {
         header('Location: ' . '/views/auth/login/login.html.php');
         exit();
     }
 
     $ideaID = $_POST['ID'];
-    $authorID = $_SESSION['aid'];
+    $authorID = $_COOKIE['aid'];
     $voteNum = 0;
     if (isset($_POST['upvote']) and $_POST['upvote'] == 'true') {
         $voteNum = 1;

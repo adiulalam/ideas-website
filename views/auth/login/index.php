@@ -16,52 +16,80 @@ function userIsLoggedIn()
             return FALSE;
         }
 
-        $secretKey = $_ENV["CAPTCHA_SECRET_KEY"];
-        $responseKey = $_POST['g-recaptcha-response'];
-        $userIP = $_SERVER['REMOTE_ADDR'];
+        // $secretKey = $_ENV["CAPTCHA_SECRET_KEY"];
+        // $responseKey = $_POST['g-recaptcha-response'];
+        // $userIP = $_SERVER['REMOTE_ADDR'];
 
-        $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$responseKey&remoteip=$userIP";
-        $response = file_get_contents($url);
-        $response = json_decode($response);
+        // $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$responseKey&remoteip=$userIP";
+        // $response = file_get_contents($url);
+        // $response = json_decode($response);
 
-        if (!$response->success) {
-            $message = 'Error: Captcha Failed';
-            generateAlert($message);
-            return FALSE;
-        }
+        // if (!$response->success) {
+        //     $message = 'Error: Captcha Failed';
+        //     generateAlert($message);
+        //     return FALSE;
+        // }
 
         $Password = md5($Password . 'ijdb');
         if (databaseContainsAuthor($Email, $Password)) {
-            session_start();
-            $_SESSION['loggedIn'] = TRUE;
-            $_SESSION['Email'] = $Email;
-            $_SESSION['Password'] = $Password;
+
+            setcookie("loggedIn", true, time() + 3600, "/");
+            $_COOKIE['loggedIn'] = true;
+
+            setcookie("Password", $Password, time() + 3600, "/");
+            $_COOKIE['Password'] = $Password;
+
+            setcookie("Email", $Email, time() + 3600, "/");
+            $_COOKIE['Email'] = $Email;
+
             customer();
-            header('Location: ' . '/');
+
+            // header('Location: ' . '/');
             return TRUE;
         } else {
-            session_start();
-            unset($_SESSION['loggedIn']);
-            unset($_SESSION['Email']);
-            unset($_SESSION['Password']);
-            unset($_SESSION['authorRole']);
+            unset($_COOKIE['loggedIn']);
+            setcookie('loggedIn', false, time() - 3600, '/');
+
+            unset($_COOKIE['Email']);
+            setcookie("Email", "", time() - 3600, "/");
+
+            unset($_COOKIE['Password']);
+            setcookie("Password", "", time() - 3600, "/");
+
+            unset($_COOKIE['authorRole']);
+            setcookie("authorRole", "", time() + 3600, "/");
+
+            unset($_COOKIE['aid']);
+            setcookie("aid", "", time() + 3600, "/");
+
             $error = 'The specified email address or password was incorrect.';
             generateAlert($error);
             return FALSE;
         }
     }
     if (isset($_POST['action']) and $_POST['action'] == 'logout') {
-        session_start();
-        unset($_SESSION['loggedIn']);
-        unset($_SESSION['Email']);
-        unset($_SESSION['Password']);
-        unset($_SESSION['authorRole']);
+
+        unset($_COOKIE['loggedIn']);
+        setcookie('loggedIn', null, time() - 3600, '/');
+
+        unset($_COOKIE['Email']);
+        setcookie("Email", null, time() - 3600, "/");
+
+        unset($_COOKIE['Password']);
+        setcookie("Password", null, time() - 3600, "/");
+
+        unset($_COOKIE['authorRole']);
+        setcookie("authorRole", "", time() + 3600, "/");
+
+        unset($_COOKIE['aid']);
+        setcookie("aid", null, time() + 3600, "/");
+
         header('Location: ' . '/');
         exit();
     }
-    session_start();
-    if (isset($_SESSION['loggedIn'])) {
-        return databaseContainsAuthor($_SESSION['Email'], $_SESSION['Password']);
+
+    if (isset($_COOKIE['loggedIn'])) {
+        return databaseContainsAuthor($_COOKIE['Email'], $_COOKIE['Password']);
     }
 }
 function databaseContainsAuthor($Email, $Password)
@@ -98,7 +126,7 @@ function userHasRole($Role)
         INNER JOIN Role ON RoleID = Role.ID
         WHERE Email = :Email AND Role.ID = :RoleID";
         $s = $pdo->prepare($sql);
-        $s->bindValue(':Email', $_SESSION['Email']);
+        $s->bindValue(':Email', $_COOKIE['Email']);
         $s->bindValue(':RoleID', $Role);
         $s->execute();
     } catch (PDOException $e) {
@@ -122,8 +150,8 @@ function customer()
     try {
         $sql = "SELECT Author_ID FROM Author WHERE Email = :Email AND Password = :Password";
         $s = $pdo->prepare($sql);
-        $s->bindValue(':Email', $_SESSION['Email']);
-        $s->bindValue(':Password', $_SESSION['Password']);
+        $s->bindValue(':Email', $_COOKIE['Email']);
+        $s->bindValue(':Password', $_COOKIE['Password']);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error selecting customers';
@@ -131,12 +159,14 @@ function customer()
         exit();
     }
     $row = $s->fetch();
-    $_SESSION['aid'] = $row['Author_ID'];
+
+    setcookie("aid", $row['Author_ID'], time() + 3600, "/");
+    $_COOKIE['aid'] = $row['Author_ID'];
 
     try {
         $sql = "SELECT RoleID FROM AuthorRole WHERE AuthorID = :AuthorID";
         $s = $pdo->prepare($sql);
-        $s->bindValue(':AuthorID', $_SESSION['aid']);
+        $s->bindValue(':AuthorID', $_COOKIE['aid']);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Error selecting author role';
@@ -147,5 +177,7 @@ function customer()
     foreach ($s as $row) {
         $totalAuthorRoles[] = $row['RoleID'];
     }
-    $_SESSION['authorRole'] = $totalAuthorRoles;
+
+    setcookie("authorRole", json_encode($totalAuthorRoles), time() + 3600, "/");
+    $_COOKIE['authorRole'] = json_encode($totalAuthorRoles);
 }

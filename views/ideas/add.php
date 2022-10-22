@@ -84,8 +84,8 @@ function ideasAddSubmit()
             include "$_PATH[errorPath]";
             exit();
         }
-        session_start();
-        $Document = date("Y-m-d_h.i.s_") . $_SESSION['aid'] . '_' . $filename;
+
+        $Document = date("Y-m-d_h.i.s_") . $_COOKIE['aid'] . '_' . $filename;
         $file = $_FILES['myfile']['tmp_name'];
 
         if (!move_uploaded_file($file, ($destination . $Document))) {

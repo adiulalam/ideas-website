@@ -36,8 +36,8 @@ if (isset($_POST['action']) and $_POST['action'] == 'deleteComment') {
 
     try {
         $commentID = $_POST['ID'];
-        session_start();
-        $authorID =  $_SESSION['aid'];
+
+        $authorID =  $_COOKIE['aid'];
         $sql = "DELETE FROM Comment WHERE CommentID = :ID AND AuthorID = :AuthorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $commentID);
@@ -108,8 +108,8 @@ foreach ($s as $row) {
 }
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-if (userIsLoggedIn() && $_SESSION['aid']) {
-    $authorID =  $_SESSION['aid'];
+if (userIsLoggedIn() && $_COOKIE['aid']) {
+    $authorID =  $_COOKIE['aid'];
     $select = 'SELECT CommentID FROM';
     $from = ' Comment';
     $where = ' WHERE AuthorID = :AuthorID';
@@ -149,8 +149,7 @@ if (isset($_POST['postComment'])) {
     include "$_PATH[phpMailer]";
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
-    session_start();
-    $authorID = $_SESSION['aid'];
+    $authorID = $_COOKIE['aid'];
     $comment = $_POST['comment'];
     $ideaID = $_GET['ideaID'];
 

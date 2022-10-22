@@ -5,13 +5,12 @@ function ideasEditForm()
     include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
     include "$_PATH[databasePath]";
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-    session_start();
 
     try {
-        $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
-            (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+        $authorID = ((in_array("Content Editor", json_decode($_COOKIE['authorRole'])) && userHasRole('Content Editor')) ||
+            (in_array("Site Administrator", json_decode($_COOKIE['authorRole'])) && userHasRole('Site Administrator')))
             ? ''
-            : "AND AuthorID = $_SESSION[aid]";
+            : "AND AuthorID = $_COOKIE[aid]";
         $sql = "SELECT ID, IdeaText, Image, AuthorID FROM Idea WHERE ID= :ID $authorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $_POST['ID']);
@@ -130,12 +129,12 @@ function ideasEditSubmit()
         include $_SERVER['DOCUMENT_ROOT'] . "/path.php";
         include "$_PATH[databasePath]";
         require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-        session_start();
+
         try {
-            $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
-                (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+            $authorID = ((in_array("Content Editor", json_decode($_COOKIE['authorRole'])) && userHasRole('Content Editor')) ||
+                (in_array("Site Administrator", json_decode($_COOKIE['authorRole'])) && userHasRole('Site Administrator')))
                 ? ''
-                : "AND AuthorID = $_SESSION[aid]";
+                : "AND AuthorID = $_COOKIE[aid]";
             $sql = "UPDATE Idea SET
             Image= :Image
             WHERE ID= :ID $authorID";
@@ -173,8 +172,8 @@ function ideasEditSubmit()
             include "$_PATH[errorPath]";
             exit();
         }
-        session_start();
-        $filename = date("Y-m-d_h.i.s_") . $_SESSION['aid'] . '_' . $filename;
+
+        $filename = date("Y-m-d_h.i.s_") . $_COOKIE['aid'] . '_' . $filename;
         $file = $_FILES['myfile']['tmp_name'];
 
         if ($_POST['fileInputName'] && file_exists($destination . $_POST['fileInputName'])) {
@@ -191,11 +190,11 @@ function ideasEditSubmit()
 
     try {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-        session_start();
-        $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
-            (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+
+        $authorID = ((in_array("Content Editor", json_decode($_COOKIE['authorRole'])) && userHasRole('Content Editor')) ||
+            (in_array("Site Administrator", json_decode($_COOKIE['authorRole'])) && userHasRole('Site Administrator')))
             ? ''
-            : "AND AuthorID = $_SESSION[aid]";
+            : "AND AuthorID = $_COOKIE[aid]";
         $sql = "UPDATE Idea SET
         IdeaText=:IdeaText
         WHERE ID=:ID $authorID";

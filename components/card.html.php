@@ -3,15 +3,15 @@ function mutationCheck($IdeaID, $totalIdeas)
 {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
-    $authorID = $_SESSION['aid'];
+    $authorID = $_COOKIE['aid'];
 
     if (!userIsLoggedIn() || !$authorID || !$totalIdeas || !$IdeaID) {
         return false;
     }
 
     if ((in_array($IdeaID, $totalIdeas)) ||
-        ((in_array("Content Editor", $_SESSION['authorRole']) ? userHasRole('Content Editor') : false) ||
-            (in_array("Site Administrator", $_SESSION['authorRole']) ? userHasRole('Site Administrator') : false))
+        ((in_array("Content Editor", json_decode($_COOKIE['authorRole'])) ? userHasRole('Content Editor') : false) ||
+            (in_array("Site Administrator", json_decode($_COOKIE['authorRole'])) ? userHasRole('Site Administrator') : false))
     ) {
         $mutationForm = "
         <form action='?' method='post' class=' float-right inline-flex items-center '>
@@ -101,7 +101,7 @@ function votingCheck($IdeaID, $ideaVoteCounts, $totalIdeaVotes, $Votes)
 {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
-    $authorID = $_SESSION['aid'];
+    $authorID = $_COOKIE['aid'];
 
     if (!userIsLoggedIn() || !$authorID) {
         echo votingSystem('', '', $Votes, $IdeaID);

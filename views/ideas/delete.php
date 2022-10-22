@@ -8,11 +8,11 @@ function ideasDelete()
 
     try {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
-        session_start();
-        $authorID = ((in_array("Content Editor", $_SESSION['authorRole']) && userHasRole('Content Editor')) ||
-            (in_array("Site Administrator", $_SESSION['authorRole']) && userHasRole('Site Administrator')))
+
+        $authorID = ((in_array("Content Editor", json_decode($_COOKIE['authorRole'])) && userHasRole('Content Editor')) ||
+            (in_array("Site Administrator", json_decode($_COOKIE['authorRole'])) && userHasRole('Site Administrator')))
             ? ''
-            : "AND AuthorID = $_SESSION[aid]";
+            : "AND AuthorID = $_COOKIE[aid]";
         $sql = "DELETE FROM Idea WHERE ID = :ID $authorID";
         $s = $pdo->prepare($sql);
         $s->bindvalue(':ID', $ideasID);

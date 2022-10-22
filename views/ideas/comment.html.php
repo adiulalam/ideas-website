@@ -6,7 +6,7 @@ function commentMutationCheck($CommentID, $totalComments)
 {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/views/auth/login/index.php';
 
-    $authorID = $_SESSION['aid'];
+    $authorID = $_COOKIE['aid'];
 
     if (!userIsLoggedIn() || !$authorID || !$totalComments || !$CommentID) {
         return false;
