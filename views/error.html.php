@@ -2,6 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . '/connection/helpers.inc.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . "/environment.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/path.php";
+include "$_PATH[alertPath]";
 ?>
 <!DOCTYPE html>
 <html lang="en">
