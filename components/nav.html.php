@@ -91,7 +91,7 @@ $navBarButton = userIsLoggedIn() ? $navBarAuth : $navBarNotAuth;
 
 ?>
 
-<nav class='bg-white border-gray-700 px-2 sm:px-4 py-1.5 dark:bg-gray-800'>
+<nav class='border-gray-700 px-2 sm:px-4 py-1.5 dark:bg-gray-800'>
     <div class='container flex flex-wrap justify-between items-center mx-auto'>
         <div class='flex md:order-2'>
             <button data-collapse-toggle='navbar-cta' type='button' class='inline-flex items-center p-2 mr-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600' aria-controls='navbar-cta' aria-expanded='false'>
