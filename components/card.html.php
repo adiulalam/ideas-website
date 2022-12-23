@@ -57,9 +57,11 @@ function commentCheck($IdeaID, $currentURL)
     if ($currentURL == $commentURL) {
         return false;
     } else {
+        $testSize = isMobileDevice() ? 'p-5 text-4xl' : 'p-3 text-sm';
+
         $commentHTML = "
         <a href='/?action=Comment&ideaID=$IdeaID' class='button'>
-            <button type='submit' name='action' value='Comment' class='inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-blue-600 hover:bg-blue-700 focus:ring-blue-800'>
+            <button type='submit' name='action' value='Comment' class='inline-flex items-center $testSize font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-blue-600 hover:bg-blue-700 focus:ring-blue-800'>
                 Comment
                 <svg aria-hidden='true' class='ml-2 -mr-1 w-4 h-4' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
                     <path fill-rule='evenodd' d='M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z' clip-rule='evenodd'></path>
@@ -76,16 +78,17 @@ function votingSystem($upvote, $downvote, $NumVotes, $IdeaID)
     $upvote == "disabled" ? "disabled" : "";
     $downvote == "disabled" ? "disabled" : "";
 
+    $votingSystemTextSize = isMobileDevice() ? 'text-4xl' : 'text-sm';
     $voteHTML = "
     <form action='' method='post'>
         <div>
-            <button type='submit' value='true' name='downvote' class='inline-flex mr-1 float-right items-center p-1 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none hover:bg-red-700 focus:ring-red-800 bg-gray-600 disabled:bg-red-600' $downvote>
+            <button type='submit' value='true' name='downvote' class='inline-flex mr-1 float-right items-center p-1 $votingSystemTextSize font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none hover:bg-red-700 focus:ring-red-800 bg-gray-600 disabled:bg-red-600' $downvote>
                 <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' preserveAspectRatio='xMidYMid meet' viewBox='0 0 24 24'>
                     <path fill='currentColor' d='M20.901 10.566A1.001 1.001 0 0 0 20 10h-4V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v7H4a1.001 1.001 0 0 0-.781 1.625l8 10a1 1 0 0 0 1.562 0l8-10c.24-.301.286-.712.12-1.059zM12 19.399L6.081 12H10V4h4v8h3.919L12 19.399z' />
                 </svg>
             </button>
-            <p class='inline-flex mr-1 float-right items-center p-1 mb-2 text-sm font-medium text-center text-white'>$NumVotes</p>
-            <button type='submit' value='true' name='upvote' class='inline-flex mr-1 float-right items-center p-1 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none hover:bg-blue-700 focus:ring-blue-800 bg-gray-600 disabled:bg-blue-600' $upvote>
+            <p class='inline-flex mr-1 float-right items-center p-1 mb-2 $votingSystemTextSize font-medium text-center text-white'>$NumVotes</p>
+            <button type='submit' value='true' name='upvote' class='inline-flex mr-1 float-right items-center p-1 $votingSystemTextSize font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none hover:bg-blue-700 focus:ring-blue-800 bg-gray-600 disabled:bg-blue-600' $upvote>
                 <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' preserveAspectRatio='xMidYMid meet' viewBox='0 0 24 24'>
                     <path fill='currentColor' d='M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601L17.919 12H15z' />
                 </svg>
@@ -133,22 +136,22 @@ function votingCheck($IdeaID, $ideaVoteCounts, $totalIdeaVotes, $Votes)
 
 <?php if (isset($ideas)) :
     foreach ($ideas as $Idea) : ?>
-        <div class="flex flex-col items-center justify-center">
-            <div class="w-96 m-3 max-w-sm rounded-lg border shadow-md bg-gray-800 border-gray-700">
-                <form method="get" action="?">
-                    <a href="<?php html("/?action=Comment&ideaID=$Idea[ID]") ?>" class="button">
-                        <button type="submit" name="action" value="Comment">
-                            <img class="rounded-t-lg" src="<?php echo str_contains($Idea['Image'], 'https://') ? $Idea['Image'] : "../assets/img/$Idea[Image]" ?>" alt="" />
+        <div class="flex <?php echo isMobileDevice() ? 'flex-row flex-wrap' : 'flex-col' ?> items-center justify-center">
+            <div class="<?php echo isMobileDevice() ? 'flex min-w-[70%]' : 'w-96' ?> m-3 max-w-sm rounded-lg border shadow-md bg-gray-800 border-gray-700">
+                <form method="get" action="?" class="<?php echo isMobileDevice() ? 'w-full' : '' ?>">
+                    <a class="<?php echo isMobileDevice() ? 'w-full' : '' ?>" href="<?php html("/?action=Comment&ideaID=$Idea[ID]") ?>" class="button">
+                        <button class="<?php echo isMobileDevice() ? 'w-full' : '' ?>" type="submit" name="action" value="Comment">
+                            <img class="<?php echo isMobileDevice() ? 'w-full' : '' ?> rounded-t-lg" src="<?php echo str_contains($Idea['Image'], 'https://') ? $Idea['Image'] : "../assets/img/$Idea[Image]" ?>" alt="" />
                         </button>
                     </a>
 
                     <div class="mb-3">
-                        <p class="mr-2 text-xs float-right italic font-light text-gray-400"><?php html($Idea['IdeaDate']); ?></p>
-                        <p class="ml-4 text-base float-left font-normal text-gray-400">By <?php html($Idea['Name']); ?></p>
+                        <p class="mr-2 <?php echo isMobileDevice() ? 'text-3xl' : 'text-xs' ?>  float-right italic font-light text-gray-400"><?php html($Idea['IdeaDate']); ?></p>
+                        <p class="ml-4 <?php echo isMobileDevice() ? 'text-3xl' : 'text-xs' ?> float-left font-normal text-gray-400">By <?php html($Idea['Name']); ?></p>
                     </div>
 
-                    <div class="p-5 mt-4">
-                        <h5 class=" mb-2 text-2xl font-bold tracking-tight text-white"><?php echo ($Idea['text']); ?></h5>
+                    <div class="p-5 <?php echo isMobileDevice() ? 'mt-8' : 'mt-4' ?>">
+                        <h5 class="<?php echo isMobileDevice() ? 'mb-6 text-5xl' : 'mb-2 text-2xl' ?> font-bold tracking-tight text-white"><?php echo ($Idea['text']); ?></h5>
                         <?php commentCheck($Idea['ID'],  $_SERVER['REQUEST_URI']) ?>
                         <input type='hidden' name='ideaID' value='<?php echo ($Idea['ID']); ?>'>
                 </form>
