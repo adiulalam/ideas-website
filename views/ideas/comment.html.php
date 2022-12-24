@@ -68,14 +68,14 @@ function commentMutationCheck($CommentID, $totalComments)
 
         <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/card.html.php'; ?>
 
-        <form method="post" action="">
-            <div class="my-4 w-96 rounded-lg border bg-gray-700 border-gray-600">
+        <form method="post" action="" class='<?php echo isMobileDevice() ? 'flex min-w-[70%]' : 'w-96' ?>'>
+            <div class="my-4 rounded-lg border bg-gray-700 border-gray-600 w-full">
                 <div class="py-2 px-4 rounded-t-lg bg-gray-800">
                     <label for="comment" class="sr-only">Your comment</label>
-                    <textarea id="comment" name="comment" rows="4" class="px-0 w-full text-sm border-0 bg-gray-800 focus:ring-0 text-white placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                    <textarea id="comment" name="comment" rows="4" class="px-0 w-full <?php echo isMobileDevice() ? 'text-3xl p-4' : 'text-sm' ?> border-0 bg-gray-800 focus:ring-0 text-white placeholder-gray-400" placeholder="Write a comment..." required></textarea>
                 </div>
                 <div class="flex justify-end items-center py-2 px-3 border-t border-gray-600">
-                    <button name="postComment" type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-900 hover:bg-blue-800">
+                    <button name="postComment" type="submit" class="inline-flex items-center py-2.5 px-4 <?php echo isMobileDevice() ? 'text-3xl p-4' : 'text-xs' ?> font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-900 hover:bg-blue-800">
                         Post comment
                     </button>
                 </div>
@@ -84,13 +84,14 @@ function commentMutationCheck($CommentID, $totalComments)
 
         <?php if (isset($comments)) :
             foreach ($comments as $Comment) : ?>
-                <div class="block p-2 m-1 w-96 max-w-sm rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">
-                    <p class="p-2 text-sm text-gray-200"><?php html($Comment['Comment']); ?></p>
-                    <p class="py-1 px-2 text-sm float-left text-gray-400"><?php html(time_elapsed_string($Comment['Time'])); ?></p>
-                    <?php commentMutationCheck($Comment['CommentID'], $totalComments) ?>
-                    <p class="py-1 px-2 text-sm float-right text-gray-400">By <?php html($Comment['Name']); ?></p>
+                <div class='flex <?php echo isMobileDevice() ? 'min-w-[70%] py-2' : 'w-96' ?>'>
+                    <div class="block p-2 m-1 w-full rounded-lg border shadow-md bg-gray-800 border-gray-700 hover:bg-gray-700">
+                        <p class="p-2 <?php echo isMobileDevice() ? 'text-3xl p-4' : 'text-sm' ?> text-gray-200"><?php html($Comment['Comment']); ?></p>
+                        <p class="py-1 px-2 <?php echo isMobileDevice() ? 'text-3xl p-4' : 'text-sm' ?> float-left text-gray-400"><?php html(time_elapsed_string($Comment['Time'])); ?></p>
+                        <?php commentMutationCheck($Comment['CommentID'], $totalComments) ?>
+                        <p class="py-1 px-2 <?php echo isMobileDevice() ? 'text-3xl p-4' : 'text-sm' ?> float-right text-gray-400">By <?php html($Comment['Name']); ?></p>
+                    </div>
                 </div>
-
         <?php endforeach;
         endif; ?>
 
