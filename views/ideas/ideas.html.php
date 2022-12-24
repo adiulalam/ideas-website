@@ -12,8 +12,8 @@
 
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
 
-<body class="dark:bg-gray-900">
-  <section class="dark:bg-gray-900">
+<body class="bg-gray-900">
+  <section class="bg-gray-900">
 
     <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/filter.html.php'; ?>
 
