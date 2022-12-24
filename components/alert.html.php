@@ -1,6 +1,7 @@
 <?php
 function generateAlert($message)
 {
+    $alertTextSize = isMobileDevice() ? 'text-4xl h-48' : 'h-24';
     $alert = "<style>
 
     /*Toast open/load animation*/
@@ -191,7 +192,7 @@ function generateAlert($message)
         <input type='checkbox' class='hidden' id='footertoast'>
         
         <div class'close flex cursor-pointer' title='close' for='footertoast'> 
-        <label class='close cursor-pointer flex items-center justify-center w-full p-3 dark:bg-gray-800 dark:border-gray-700 h-24 rounded shadow-lg text-white' title='close' for='footertoast'>
+        <label class='$alertTextSize close cursor-pointer flex items-center justify-center w-full p-3 bg-gray-800 border-gray-700 rounded shadow-lg text-white' title='close' for='footertoast'>
             $message
         </label>
     </div>
