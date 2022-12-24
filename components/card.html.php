@@ -13,11 +13,12 @@ function mutationCheck($IdeaID, $totalIdeas)
         ((in_array("Content Editor", $_SESSION['authorRole']) ? userHasRole('Content Editor') : false) ||
             (in_array("Site Administrator", $_SESSION['authorRole']) ? userHasRole('Site Administrator') : false))
     ) {
+        $checkTextSize = isMobileDevice() ? 'p-3 text-3xl' : 'mx-1 p-2 text-sm';
         $mutationForm = "
         <form action='?' method='post' class=' float-right inline-flex items-center '>
             <input type='hidden' name='ID' value='$IdeaID'>
-            <Button type='submit' name='action' value='Edit' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none bg-blue-600 hover:bg-blue-700 focus:ring-blue-800'>Edit</Button>
-            <Button type='button' data-modal-toggle='$IdeaID' class=' float-right inline-flex items-center mx-1 py-1 px-3 text-sm font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none bg-red-600 hover:bg-red-700 focus:ring-red-800'>Delete</Button>
+            <Button type='submit' name='action' value='Edit' class=' float-right inline-flex items-center mr-2 $checkTextSize font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none bg-blue-600 hover:bg-blue-700 focus:ring-blue-800'>Edit</Button>
+            <Button type='button' data-modal-toggle='$IdeaID' class=' float-right inline-flex items-center ml-2 $checkTextSize font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none bg-red-600 hover:bg-red-700 focus:ring-red-800'>Delete</Button>
         </form>
 
         <div id='$IdeaID' tabindex='-1' class='hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full'>
@@ -146,11 +147,11 @@ function votingCheck($IdeaID, $ideaVoteCounts, $totalIdeaVotes, $Votes)
                     </a>
 
                     <div class="mb-3">
-                        <p class="mr-2 <?php echo isMobileDevice() ? 'text-3xl' : 'text-xs' ?>  float-right italic font-light text-gray-400"><?php html($Idea['IdeaDate']); ?></p>
+                        <p class="mr-4 <?php echo isMobileDevice() ? 'text-3xl' : 'text-xs' ?>  float-right italic font-light text-gray-400"><?php html($Idea['IdeaDate']); ?></p>
                         <p class="ml-4 <?php echo isMobileDevice() ? 'text-3xl' : 'text-xs' ?> float-left font-normal text-gray-400">By <?php html($Idea['Name']); ?></p>
                     </div>
 
-                    <div class="p-5 <?php echo isMobileDevice() ? 'mt-8' : 'mt-4' ?>">
+                    <div class=" <?php echo isMobileDevice() ? 'p-4 mt-8' : 'px-4 mt-4' ?>">
                         <h5 class="<?php echo isMobileDevice() ? 'mb-6 text-5xl' : 'mb-2 text-2xl' ?> font-bold tracking-tight text-white"><?php echo ($Idea['text']); ?></h5>
                         <?php commentCheck($Idea['ID'],  $_SERVER['REQUEST_URI']) ?>
                         <input type='hidden' name='ideaID' value='<?php echo ($Idea['ID']); ?>'>

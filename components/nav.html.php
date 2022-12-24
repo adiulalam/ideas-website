@@ -10,10 +10,10 @@ function currentDir($dir)
     $mobileDevice =  isMobileDevice() ? 'text-2xl' : 'text-sm';
     $reqDir = $_SERVER['REQUEST_URI'];
     if ($dir == $reqDir) {
-        $css = "class='block bg-gray-900 mr-2 text-white px-3 py-2 rounded-md $mobileDevice font-medium' aria-current='page'";
+        $css = "class='flex justify-center items-center bg-gray-900 mr-2 text-white px-3 py-2 rounded-md $mobileDevice font-medium' aria-current='page'";
         return $css;
     } else {
-        $css = "class='block text-gray-300 mr-2 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md $mobileDevice font-medium'";
+        $css = "class='flex justify-center items-center text-gray-300 mr-2 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md $mobileDevice font-medium'";
         return $css;
     }
 }
@@ -75,11 +75,12 @@ function roleCheck($dir)
         return false;
     }
 }
+$mobileDevice =  isMobileDevice() ? 'text-2xl' : 'text-sm';
 
 $navBarAuth = "
 <a href='?Author=$_SESSION[aid]&Category=&action=search&text=' " . currentDir("/?Author=$_SESSION[aid]&Category=&action=search&text=") . " >See My Ideas</a>
 <form action='' method='post'> 
-    <button type='submit' href='/' class='block text-gray-300 mr-2 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
+    <button type='submit' href='/' class='flex h-full justify-center items-center text-gray-300 mr-2 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md $mobileDevice font-medium'>Logout</button>
     <input type='hidden' name='action' value='logout'>
 </form> 
 ";
@@ -113,7 +114,7 @@ $navBarButton = userIsLoggedIn() ? $navBarAuth : $navBarNotAuth;
                     <a href='/views/contact/' <?php echo currentDir('/views/contact/') ?>>Contact Me</a>
                 </li>
                 <li>
-                    <a href='https://adiulalamadil.me/' class='block text-gray-300 mr-2 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md <?php echo isMobileDevice() ? 'text-2xl' : 'text-sm' ?> font-medium'>About Me</a>
+                    <a href='https://adiulalamadil.me/' class='flex justify-center items-center text-gray-300 mr-2 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md <?php echo isMobileDevice() ? 'text-2xl' : 'text-sm' ?> font-medium'>About Me</a>
                 </li>
                 <?php echo roleCheck($_SERVER['REQUEST_URI']) ?>
             </ul>
