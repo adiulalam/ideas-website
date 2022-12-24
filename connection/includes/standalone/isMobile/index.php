@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (isset($_SESSION['screen_width']) and isset($_SESSION['screen_height'])) {
 	// echo 'User resolution: ' . $_SESSION['screen_width'] . 'x' . $_SESSION['screen_height'];
 } else if (isset($_REQUEST['width']) and isset($_REQUEST['height'])) {
