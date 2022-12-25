@@ -20,7 +20,7 @@ function mutationCheck($IdeaID, $totalIdeas)
         <form action='?' method='post' class=' float-right inline-flex items-center '>
             <input type='hidden' name='ID' value='$IdeaID'>
             <Button type='submit' name='action' value='Edit' class=' float-right inline-flex items-center mr-2 $checkTextSize font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none bg-blue-600 hover:bg-blue-700 focus:ring-blue-800'>Edit</Button>
-            <Button type='button' data-modal-toggle='$IdeaID' class=' float-right inline-flex items-center ml-2 $checkTextSize font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none bg-red-600 hover:bg-red-700 focus:ring-red-800'>Delete</Button>
+            <Button type='button' data-modal-toggle='$IdeaID' class=' float-right inline-flex items-center ml-2 $checkTextSize font-medium text-center text-white rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none bg-red-600 hover:bg-red-700 focus:ring-red-800'>Delete</Button>
         </form>
 
         <div id='$IdeaID' tabindex='-1' class='hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full'>

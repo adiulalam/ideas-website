@@ -25,8 +25,8 @@ if (!userIsLoggedIn()) {
 <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/components/nav.html.php'; ?>
 
 <body>
-    <section class="bg-gray-900 mx-auto min-h-screen lg:py-0">
-        <div class="flex flex-row flex-wrap justify-center items-center bgimg bg-cover p-6 py-6">
+    <section class="bg-gray-900">
+        <div class="flex flex-row flex-wrap justify-center items-center p-6 py-6 mx-auto min-h-screen lg:py-0">
             <div class="<?php echo isMobileDevice() ? 'flex min-w-[70%]' : 'w-full' ?> rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8 w-full">
                     <h1 class="<?php echo isMobileDevice() ? 'text-5xl' : 'text-xl md:text-2xl' ?> font-bold leading-tight tracking-tight text-white">
