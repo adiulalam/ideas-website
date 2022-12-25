@@ -2,6 +2,7 @@
 $_PATH["errorPath"] = $_SERVER['DOCUMENT_ROOT'] . '/views/error.html.php';
 $_PATH["databasePath"] = $_SERVER['DOCUMENT_ROOT'] . '/connection/db.inc.php';
 $_PATH["purifierPath"] = $_SERVER['DOCUMENT_ROOT'] . '/connection/includes/HTMLPurifier.standalone.php';
+$_PATH["isMobile"] = $_SERVER['DOCUMENT_ROOT'] . '/connection/includes/standalone/isMobile/index.php';
 
 $_PATH["ideasPath"] = $_SERVER['DOCUMENT_ROOT'] . '/views/ideas/ideas.html.php';
 $_PATH["ideasFormPath"] = $_SERVER['DOCUMENT_ROOT'] . "/views/ideas/form.html.php";
