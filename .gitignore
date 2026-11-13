@@ -9,7 +9,6 @@
 /environment.php
 .env
 .env.*
-!.env.example
 
 # Uploaded images (new and legacy naming schemes). Seed images in the same
 # folder stay tracked.
@@ -22,5 +21,6 @@
 .DS_Store
 npm-debug.log*
 
-# Claude Code personal settings
+# Claude Code personal settings and session worktrees
 /.claude/settings.local.json
+/.claude/worktrees/

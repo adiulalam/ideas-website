@@ -33,3 +33,7 @@ paths:
   preserve nullability and data, and never drop data.
 - Migrations run automatically on every container start, so a failing
   migration is logged but does not stop the site.
+- Target state for every table: InnoDB + `utf8mb4_unicode_ci` (the
+  `2026_11_13_000001` migration converts the legacy MyISAM / latin1 / utf8mb3
+  tables). New tables must use that too. Never create MyISAM tables:
+  `Database::transaction()` only protects InnoDB.

@@ -1,27 +1,71 @@
-# Production stack, started by deploy-ideas-website.sh on the server.
-# The database is external; its credentials come from environment.php (legacy)
-# or from DB_* environment variables.
+# Production stack: the PHP app and its own MySQL database.
+#
+# Started by deploy-ideas-website.sh on the server, which first copies the
+# secrets file (../.env, see .env.example) next to this file. Compose reads
+# it for the ${...} values below; it is never baked into an image.
 #
 # Local development uses docker-compose.dev.yml instead.
-version: "3.8"
+name: ideas-website
 
 services:
-  php-apache-environment:
+  app:
     container_name: php-apache
     build:
       context: .
       dockerfile: Dockerfile
     image: ideas-website:latest
     restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
-      # NOTE: this publishes the origin on all interfaces. If your reverse
-      # proxy runs on the same host (not in another container), change this
-      # to "127.0.0.1:8076:80" so the site cannot be reached around Cloudflare.
+      # Reached by the reverse proxy (nginx-proxy-manager) on the host.
       - "8076:80"
     environment:
       APP_ENV: production
+      APP_URL: ${APP_URL:-}
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: ${DB_DATABASE:?}
+      DB_USERNAME: ${DB_USERNAME:?}
+      DB_PASSWORD: ${DB_PASSWORD:?}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      CONTACT_TO: ${CONTACT_TO:-}
+      CAPTCHA_SITE_KEY: ${CAPTCHA_SITE_KEY:-}
+      CAPTCHA_SECRET_KEY: ${CAPTCHA_SECRET_KEY:-}
     volumes:
       # Uploaded images live on the host so they survive rebuilds.
       - ./public/assets/img:/var/www/html/public/assets/img
-      # Legacy configuration file (copied here by the deploy script). Read-only.
-      - ./environment.php:/var/www/html/environment.php:ro
+
+  db:
+    image: mysql:8.4
+    container_name: ideas-db
+    restart: unless-stopped
+    environment:
+      # Only used when the data volume is empty (first start): creates the
+      # database and a user that can access nothing else.
+      MYSQL_DATABASE: ${DB_DATABASE:?}
+      MYSQL_USER: ${DB_USERNAME:?}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?}
+    ports:
+      # Loopback only: reach it from your PC through an SSH tunnel
+      # (ssh -L 3309:127.0.0.1:3309 user@server). Never expose it publicly.
+      - "127.0.0.1:3309:3306"
+    volumes:
+      - ideas-mysql-data:/var/lib/mysql
+    healthcheck:
+      # mysqladmin ping succeeds once the server accepts connections,
+      # even without credentials.
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+volumes:
+  # External, so `docker compose down -v` can never delete production data.
+  # deploy-ideas-website.sh creates it on first deploy.
+  ideas-mysql-data:
+    external: true
