@@ -1,0 +1,8 @@
+# Used only when the app is hosted without the bundled Docker/Apache config
+# (docker/apache.conf already applies all of this and disables .htaccess).
+Options -Indexes
+FallbackResource /index.php
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
