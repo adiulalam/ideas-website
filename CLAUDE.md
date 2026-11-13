@@ -10,12 +10,17 @@ small hand-written kernel, Composer for libraries, Tailwind v4 for CSS.
 - **Every push to `main` deploys** (`.github/workflows/deploy.yml` → SSH →
   `deploy-ideas-website.sh`). Work on a branch. Never push, merge or run the
   deploy script without the user's explicit go-ahead for that action.
-- The production database is external and was created by hand.
-  `database/schema.sql` is a reconstruction, not the source of truth. Never
-  run `seed.sql`, DDL or destructive SQL against production.
-- Secrets live in `environment.php` (gitignored, mounted read-only into the
-  container) or `DB_*`/`MAIL_*`/`CAPTCHA_*` env vars. Never read, print or
-  commit them.
+- Production is one Compose stack (`docker-compose.yml`): `app` (container
+  `php-apache`) and `db` (container `ideas-db`, MySQL 8.4, data in the
+  **external** volume `ideas-mysql-data`). Never run `docker compose down -v`,
+  `docker volume rm` or destructive SQL against it, and never run `seed.sql` there.
+  Take a backup first (`bin/db-backup.sh`) before any manual data change.
+- The old shared MySQL container `mysql-server` on the server still holds
+  another app's `notes` database. Never stop or modify it.
+- Secrets live in `~/ideas-website-content/.env` on the server (template:
+  `example.env`) and are injected as `DB_*`/`MAIL_*`/`CAPTCHA_*` env vars.
+  Never read, print or commit them. SSH commands to the server need the
+  user's approval (`.claude/settings.json`).
 
 ## Layout
 
@@ -32,6 +37,7 @@ small hand-written kernel, Composer for libraries, Tailwind v4 for CSS.
 | `templates/` | Plain PHP views: `layout.php`, `partials/`, one folder per area. |
 | `database/` | `schema.sql` (legacy baseline), `seed.sql` (dev only), `migrations/`. |
 | `docker/` | `apache.conf`, `php.ini`, `entrypoint.sh` (runs migrations on start). |
+| `bin/` | `migrate.php`, `lint.php`, `db-backup.sh`, `import-legacy-db.sh` (one-time data copy run by the deploy). |
 | `docs/security-audit.md` | The 2026 audit: every finding and how it was fixed. |
 
 Old URLs (`/views/...`, `/?action=Comment&ideaID=`) are 301-redirected by
@@ -53,8 +59,9 @@ npm run build:css
 
 The dev stack bakes code into the image: rebuild (`up --build -d`) after edits.
 Use the `local-dev` skill for details, `prod-triage` when the live site is
-broken, `add-migration` for schema changes and `audit-security` before
-finishing any change that touches input, output, auth, SQL or uploads.
+broken, `prod-data` for production backups, queries and copying data to dev,
+`add-migration` for schema changes and `audit-security` before finishing any
+change that touches input, output, auth, SQL or uploads.
 
 ## Non-negotiable rules
 

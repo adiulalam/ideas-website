@@ -209,3 +209,36 @@ Run against the Docker dev stack (`docker-compose.dev.yml`) after the refactor:
   `/deploy-ideas-website.sh` and `/assets/img/` all return 403/404.
 - Outage simulation: unreachable DB gives a 503 page in 5.2 s, hung DB gives a 503 in 10.3 s, and `/healthz` reports it.
 - Legacy MD5 login works and the hash is upgraded to bcrypt in place.
+
+---
+
+## Follow-up: 13 November 2026
+
+### Outage root cause (resolved)
+The app reached its database through the server's **public IP**
+(`<public-ip>:3308`), even though MySQL ran in a container on the same
+machine. The Oracle Cloud security list no longer allowed that port, so
+packets were silently dropped and every connection timed out. Short-term fix:
+point the app at Docker's host gateway (`172.17.0.1`). Permanent fix: the
+database now runs inside the app's own Compose stack (`ideas-db`) and is
+reached over the stack's private network.
+
+### H9. The app connected as a MySQL superuser
+- **Before:** the app's account on the shared `mysql-server` had every global
+  privilege (`SUPER`, `FILE`, `CREATE USER`, `SHUTDOWN`, …) on `*.*` with
+  `GRANT OPTION`, from any host. The same server holds another application's
+  `notes` database. Combined with C1/C3 (SQL injection), an attacker could
+  read `notes`, read and write files on the database host (`FILE`), and create
+  new privileged accounts.
+- **After:** the stack's database has a dedicated user with privileges on the
+  `ideas` database only, and its port listens on `127.0.0.1` only.
+- **Recommendation:** the old superuser account still exists on `mysql-server`.
+  Rotate its password, or remove the account if nothing else uses it.
+
+### M9. MyISAM tables and mixed character sets
+- **Before:** every table was MyISAM, which ignores transactions, so a failed
+  multi-step write could leave half-applied changes. Several tables were
+  `latin1`, so emoji and many scripts were stored as `?`.
+- **After:** migration `2026_11_13_000001` converts every table to InnoDB +
+  `utf8mb4` when the stack's database is first started. The conversion is
+  lossless; this was rehearsed against MySQL 8.0.30 with production-shaped tables.

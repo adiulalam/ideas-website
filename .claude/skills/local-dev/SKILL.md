@@ -40,7 +40,16 @@ docker compose -f docker-compose.dev.yml up --build -d
 ```
 
 `schema.sql` + `seed.sql` load only into an empty volume. Migrations run on
-every app start.
+every app start. The baseline mirrors production's legacy tables (MyISAM,
+latin1/utf8mb3, MD5 passwords), so a fresh dev database replays the exact
+upgrade migrations production went through. To work with real data instead,
+see the `prod-data` skill.
+
+The dev stack is separate from the production-shaped stack in
+`docker-compose.yml` (which needs a `.env`, see `example.env`). To rehearse
+production deploys locally, run `deploy-ideas-website.sh` with `ENV_FILE`
+pointing to a throwaway env file and `PRUNE_IMAGES=0`, then tear it down with
+`docker compose down` and `docker volume rm ideas-mysql-data`.
 
 ## Checks (run before saying a change is done)
 
