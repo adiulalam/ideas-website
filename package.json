@@ -1,0 +1,13 @@
+{
+  "name": "ideas-website",
+  "private": true,
+  "description": "Front-end build for Ideal Ideas (Tailwind CSS only).",
+  "scripts": {
+    "build:css": "tailwindcss -i resources/css/app.css -o public/assets/app.css --minify",
+    "watch:css": "tailwindcss -i resources/css/app.css -o public/assets/app.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0"
+  }
+}

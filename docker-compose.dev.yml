@@ -1,0 +1,64 @@
+# Local development stack: app + MySQL (seeded) + Mailpit (catches all email).
+#
+#   docker compose -f docker-compose.dev.yml up --build -d
+#
+#   App:     http://localhost:8080
+#   Mailpit: http://localhost:8025
+#
+# Test accounts are listed at the top of database/seed.sql.
+# Credentials below are for this throwaway local stack only.
+name: ideas-dev
+
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      APP_ENV: development
+      APP_DEBUG: "1"
+      APP_URL: http://localhost:8080
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: ideas
+      DB_USERNAME: ideas
+      DB_PASSWORD: ideas-dev-password
+      MAIL_HOST: mailpit
+      MAIL_PORT: "1025"
+      MAIL_ENCRYPTION: none
+      MAIL_FROM_ADDRESS: no-reply@ideas.test
+      MAIL_FROM_NAME: Ideal Ideas (dev)
+      CONTACT_TO: owner@ideas.test
+    volumes:
+      - uploads:/var/www/html/public/assets/img
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ideas
+      MYSQL_USER: ideas
+      MYSQL_PASSWORD: ideas-dev-password
+      MYSQL_ROOT_PASSWORD: ideas-dev-root-password
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uideas", "-pideas-dev-password"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  mailpit:
+    image: axllent/mailpit:v1.33.1
+    ports:
+      - "127.0.0.1:8025:8025"
+
+volumes:
+  dbdata:
+  uploads:

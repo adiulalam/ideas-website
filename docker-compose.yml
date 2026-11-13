@@ -1,14 +1,27 @@
-version: '3'
+# Production stack, started by deploy-ideas-website.sh on the server.
+# The database is external; its credentials come from environment.php (legacy)
+# or from DB_* environment variables.
+#
+# Local development uses docker-compose.dev.yml instead.
+version: "3.8"
 
 services:
   php-apache-environment:
     container_name: php-apache
     build:
-        context: ./
-        dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile
+    image: ideas-website:latest
+    restart: unless-stopped
     ports:
-        - "8076:80"
-    expose:
-        - "8076"
+      # NOTE: this publishes the origin on all interfaces. If your reverse
+      # proxy runs on the same host (not in another container), change this
+      # to "127.0.0.1:8076:80" so the site cannot be reached around Cloudflare.
+      - "8076:80"
+    environment:
+      APP_ENV: production
     volumes:
-      - ./:/var/www/html/
+      # Uploaded images live on the host so they survive rebuilds.
+      - ./public/assets/img:/var/www/html/public/assets/img
+      # Legacy configuration file (copied here by the deploy script). Read-only.
+      - ./environment.php:/var/www/html/environment.php:ro

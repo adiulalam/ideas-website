@@ -1,0 +1,16 @@
+.git
+.github
+.claude
+.vscode
+.idea
+node_modules
+vendor
+tests
+docs
+*.md
+.env
+.env.*
+environment.php
+docker-compose*.yml
+public/assets/app.css
+.phpunit.cache

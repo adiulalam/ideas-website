@@ -1,0 +1,53 @@
+/*
+ * Tailwind CSS v4 entry point. Built to public/assets/app.css by
+ * `npm run build:css` (and automatically in the Docker image).
+ */
+@import "tailwindcss" source(none);
+
+@source "../../templates";
+@source "../../public/assets/app.js";
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors focus:ring-4 focus:outline-none disabled:cursor-default;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 focus:ring-blue-800;
+  }
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 focus:ring-red-800;
+  }
+  .btn-secondary {
+    @apply border border-gray-500 bg-gray-700 text-gray-200 hover:bg-gray-600 hover:text-white focus:ring-gray-600;
+  }
+  .card {
+    @apply rounded-lg border border-gray-700 bg-gray-800 shadow-md;
+  }
+  .label {
+    @apply mb-2 block text-sm font-medium text-white;
+  }
+  .input {
+    @apply block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 text-sm text-white placeholder:text-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none;
+  }
+  .input-file {
+    @apply block w-full cursor-pointer rounded-lg border border-gray-600 bg-gray-700 text-sm text-gray-300 file:mr-3 file:cursor-pointer file:border-0 file:bg-gray-600 file:px-3 file:py-2.5 file:text-white hover:file:bg-gray-500 focus:outline-none;
+  }
+  .checkbox {
+    @apply h-4 w-4 shrink-0 accent-blue-600;
+  }
+  .field-error {
+    @apply mt-1 text-sm text-red-400;
+  }
+  .nav-link {
+    @apply block rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white;
+  }
+  .nav-link-active {
+    @apply bg-gray-900 text-white;
+  }
+  .idea-text a {
+    @apply text-blue-400 underline hover:text-blue-300;
+  }
+}
